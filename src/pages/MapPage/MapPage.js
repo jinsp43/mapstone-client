@@ -14,6 +14,7 @@ const MapPage = () => {
   const [lat, setLat] = useState(51.5263);
   const [zoom, setZoom] = useState(16.2);
 
+  // example markers array
   const markers = [
     {
       title: "Keu!",
@@ -21,27 +22,45 @@ const MapPage = () => {
       latitude: 51.5266,
     },
     {
-      title: "Honi Poke",
+      title: "Island Poke",
       longitude: -0.0807,
       latitude: 51.5248,
     },
+    {
+      title: "Subway",
+      longitude: -0.081,
+      latitude: 51.5249,
+    },
   ];
 
-  const features = markers.map((marker) => {
-    return {
-      type: "Feature",
-      geometry: {
-        type: "Point",
-        coordinates: [marker.longitude, marker.latitude],
-      },
-      properties: {
-        title: marker.title,
-      },
+  let features;
+  let markersData;
+
+  // convert markers to required GeoJSON format
+  const markersToData = () => {
+    features = markers.map((marker) => {
+      return {
+        type: "Feature",
+        geometry: {
+          type: "Point",
+          coordinates: [marker.longitude, marker.latitude],
+        },
+
+        properties: {
+          title: marker.title,
+        },
+      };
+    });
+
+    markersData = {
+      type: "FeatureCollection",
+      features: features,
     };
-  });
+  };
 
-  console.log(features);
+  markersToData();
 
+  // Initial load of map
   useEffect(() => {
     if (map.current) return; // initialize map only once
     map.current = new mapboxgl.Map({
@@ -58,13 +77,10 @@ const MapPage = () => {
         (error, image) => {
           if (error) throw error;
           map.current.addImage("custom-marker", image);
-          // Add a GeoJSON source with 2 points
+          // Add a GeoJSON source
           map.current.addSource("points", {
             type: "geojson",
-            data: {
-              type: "FeatureCollection",
-              features: features,
-            },
+            data: markersData,
           });
 
           // Add a symbol layer
@@ -86,9 +102,33 @@ const MapPage = () => {
     });
   });
 
+  const clickHandler = () => {
+    markers.push({
+      title: "BrainStation",
+      longitude: -0.081,
+      latitude: 51.5263,
+    });
+
+    // setMarkers([
+    //   ...markers,
+    //   {
+    //     title: "BrainStation",
+    //     longitude: -0.081,
+    //     latitude: 51.5263,
+    //   },
+    // ]);
+
+    // loop over markers to turn them into needed format
+    markersToData();
+
+    console.log(markersData.features);
+    map.current.getSource("points").setData(markersData);
+  };
+
   return (
     <main>
       <div ref={mapContainer} className="map-container" />
+      <button onClick={clickHandler}>Add a new marker</button>
     </main>
   );
 };
