@@ -14,8 +14,8 @@ const MapPage = () => {
   const [lat, setLat] = useState(51.5263);
   const [zoom, setZoom] = useState(16.2);
 
-  // example markers array
-  const markers = [
+  // the state way
+  const [markers, setMarkers] = useState([
     {
       title: "Keu!",
       longitude: -0.0815,
@@ -31,7 +31,26 @@ const MapPage = () => {
       longitude: -0.081,
       latitude: 51.5249,
     },
-  ];
+  ]);
+
+  // example markers array - the vanilla way
+  //   const markers = [
+  //     {
+  //       title: "Keu!",
+  //       longitude: -0.0815,
+  //       latitude: 51.5266,
+  //     },
+  //     {
+  //       title: "Island Poke",
+  //       longitude: -0.0807,
+  //       latitude: 51.5248,
+  //     },
+  //     {
+  //       title: "Subway",
+  //       longitude: -0.081,
+  //       latitude: 51.5249,
+  //     },
+  //   ];
 
   let features;
   let markersData;
@@ -73,7 +92,7 @@ const MapPage = () => {
     map.current.on("load", () => {
       // Add an image to use as a custom marker
       map.current.loadImage(
-        "https://docs.mapbox.com/mapbox-gl-js/assets/custom_marker.png",
+        "http://localhost:5050/images/mapbox-marker-icon-20px-orange.png",
         (error, image) => {
           if (error) throw error;
           map.current.addImage("custom-marker", image);
@@ -103,27 +122,36 @@ const MapPage = () => {
   });
 
   const clickHandler = () => {
-    markers.push({
-      title: "BrainStation",
-      longitude: -0.081,
-      latitude: 51.5263,
-    });
+    // markers.push({
+    //   title: "BrainStation",
+    //   longitude: -0.081,
+    //   latitude: 51.5263,
+    // });
 
-    // setMarkers([
-    //   ...markers,
-    //   {
-    //     title: "BrainStation",
-    //     longitude: -0.081,
-    //     latitude: 51.5263,
-    //   },
-    // ]);
+    setMarkers([
+      ...markers,
+      {
+        title: "BrainStation",
+        longitude: -0.081,
+        latitude: 51.5263,
+      },
+    ]);
 
+    // === the vanilla way
     // loop over markers to turn them into needed format
-    markersToData();
+    // markersToData();
 
+    // console.log(markersData.features);
+    // map.current.getSource("points").setData(markersData);
+  };
+
+  // === the state & useEffect way
+  useEffect(() => {
+    if (!map.current.getSource("points")) return;
+    markersToData();
     console.log(markersData.features);
     map.current.getSource("points").setData(markersData);
-  };
+  }, [markers]);
 
   return (
     <main>
