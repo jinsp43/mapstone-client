@@ -1,0 +1,13 @@
+@use "../../styles/partials/mixins" as *;
+@use "../../styles/partials/variables" as *;
+
+.mobile-nav {
+  background-color: $primary;
+  padding: 1rem 1.6rem;
+  @include flex(space-between);
+
+  &__icon {
+    width: 3rem;
+    height: 3rem;
+  }
+}
