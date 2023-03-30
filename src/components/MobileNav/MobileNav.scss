@@ -3,11 +3,26 @@
 
 .mobile-nav {
   background-color: $primary;
-  padding: 1rem 1.6rem;
+  padding: 1rem 0;
   @include flex(space-between);
 
+  @include tablet {
+    display: none;
+  }
+
+  &__link {
+    @include flex(center, center, column);
+    width: 20%;
+  }
+
   &__icon {
-    width: 3rem;
-    height: 3rem;
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  &__text {
+    font-size: 1rem;
+    font-variation-settings: "wght" 700;
+    margin: 0.25rem 0 0;
   }
 }
