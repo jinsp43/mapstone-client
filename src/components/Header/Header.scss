@@ -1,0 +1,25 @@
+@use "../../styles/partials/mixins" as *;
+@use "../../styles/partials/variables" as *;
+
+.header {
+  @include flex(center);
+  background-color: $primary;
+  padding: 1rem 1.6rem;
+
+  @include tablet {
+    @include flex(space-between, center);
+  }
+
+  &__icon {
+    display: none;
+
+    @include tablet {
+      display: block;
+      width: 3rem;
+    }
+  }
+
+  &__logo {
+    width: 10rem;
+  }
+}
