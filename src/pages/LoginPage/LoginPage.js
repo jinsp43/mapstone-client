@@ -47,6 +47,7 @@ const LoginPage = () => {
           className="login-form__input"
           type="text"
           name="username"
+          placeholder="Enter your username..."
         />
 
         <label className="login-form__label" htmlFor="password">
@@ -57,6 +58,7 @@ const LoginPage = () => {
           className="login-form__input"
           type="password"
           name="password"
+          placeholder="Enter your password..."
         />
 
         {errorMessage && <p>{errorMessage}</p>}
