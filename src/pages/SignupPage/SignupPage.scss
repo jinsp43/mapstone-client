@@ -1,0 +1,35 @@
+@use "../../styles/partials/mixins" as *;
+@use "../../styles/partials/variables" as *;
+
+.signup-page {
+  background-color: $background;
+  padding: 4rem 1.6rem;
+  height: 100vh;
+
+  &__heading {
+    margin: 4rem 0;
+    text-align: center;
+  }
+
+  &__new-wrapper {
+    @include flex(center, center, row);
+    margin-top: 4rem;
+  }
+
+  &__text {
+    margin: 0 0.5rem 0 0;
+  }
+}
+
+.signup-form {
+  @include flex(flex-start, stretch, column);
+
+  &__input {
+    margin-bottom: 1.5rem;
+  }
+
+  &__submit {
+    @include button;
+    margin: 1rem auto;
+  }
+}
