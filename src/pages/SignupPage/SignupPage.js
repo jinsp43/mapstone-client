@@ -19,9 +19,11 @@ const SignupPage = () => {
     setFormFields({ ...formFields, [e.target.name]: e.target.value });
   };
 
-  // could check pass and confirmpass dynamically if there is content in confirmpass
   let confirmError;
-  if (formFields.password !== formFields.confirmPassword) {
+  if (
+    formFields.confirmPassword &&
+    formFields.password !== formFields.confirmPassword
+  ) {
     confirmError = "Passwords do not match";
   }
 
