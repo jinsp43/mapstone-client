@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.scss";
 import Header from "./components/Header/Header";
-import MobileNav from "./components/MobileNav/MobileNav";
+import LandingPage from "./pages/LandingPage/LandingPage";
 import MapPage from "./pages/MapPage/MapPage";
 
 const App = () => {
@@ -9,9 +9,9 @@ const App = () => {
     <BrowserRouter>
       <Header />
       <Routes>
+        <Route path="landing" element={<LandingPage />} />
         <Route path="map" element={<MapPage />} />
       </Routes>
-      <MobileNav />
     </BrowserRouter>
   );
 };

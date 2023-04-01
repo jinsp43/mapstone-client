@@ -1,0 +1,40 @@
+@use "../../styles/partials/mixins" as *;
+@use "../../styles/partials/variables" as *;
+
+.landing {
+  background-color: $background;
+  padding: 3rem 0;
+  height: 100vh;
+
+  &__heading {
+    text-align: center;
+    margin: 0.5rem;
+    font-family: Helvetica, sans-serif;
+    color: $secondary;
+  }
+
+  &__subheading {
+    text-align: center;
+    width: 75%;
+    margin: 2rem auto;
+    font-family: Helvetica, sans-serif;
+    color: $secondary;
+  }
+
+  &__link {
+    @include flex(center, center, row);
+    width: 50%;
+    height: 4rem;
+    background-color: $primary;
+    color: $neutral-dark;
+    margin: 1rem 0;
+    text-decoration: none;
+    border-radius: 4rem;
+    font-weight: bold;
+
+    &-wrapper {
+      @include flex(flex-start, center, column);
+      margin-top: 6rem;
+    }
+  }
+}

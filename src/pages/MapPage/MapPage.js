@@ -2,6 +2,7 @@ import "./MapPage.scss";
 import "mapbox-gl/dist/mapbox-gl.css";
 import React, { useRef, useEffect, useState } from "react";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
+import MobileNav from "../../components/MobileNav/MobileNav";
 
 const MapPage = () => {
   mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
@@ -154,10 +155,13 @@ const MapPage = () => {
   }, [markers]);
 
   return (
-    <main>
-      <div ref={mapContainer} className="map-container" />
-      <button onClick={clickHandler}>Add a new marker</button>
-    </main>
+    <>
+      <main>
+        <div ref={mapContainer} className="map-container" />
+        <button onClick={clickHandler}>Add a new marker</button>
+      </main>
+      <MobileNav />
+    </>
   );
 };
 
