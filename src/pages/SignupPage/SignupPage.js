@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { SIGNUP } from "../../utils/apiCalls.mjs";
 import "./SignupPage.scss";
 
@@ -12,6 +12,8 @@ const SignupPage = () => {
   });
 
   const [errorMessage, setErrorMessage] = useState("");
+
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormFields({ ...formFields, [e.target.name]: e.target.value });
@@ -41,7 +43,10 @@ const SignupPage = () => {
       await SIGNUP({
         username: formFields.username,
         password: formFields.password,
+        marker_colour: formFields.marker_colour,
       });
+
+      navigate("/login");
     } catch (error) {
       console.log(error.response);
       setErrorMessage(error.response.data.message);
@@ -50,7 +55,10 @@ const SignupPage = () => {
 
   return (
     <main className="signup-page">
-      <h1 className="signup-page__heading">Welcome to Our Places</h1>
+      <div className="signup-page__heading-wrapper">
+        <h1 className="signup-page__heading">Welcome to</h1>
+        <h1 className="signup-page__heading">Our Places</h1>
+      </div>
 
       <form onSubmit={handleSubmit} className="signup-form">
         <label htmlFor="username" className="signup-form__label">
@@ -85,6 +93,25 @@ const SignupPage = () => {
           className="signup-form__input"
           placeholder="Confirm your password..."
         />
+
+        <label htmlFor="marker_colour" className="signup-form__label">
+          (Optional) Your Favourite Colour
+        </label>
+        <select
+          className="signup-form__input"
+          name="marker_colour"
+          onChange={handleChange}
+        >
+          <option value="">--Choose Your Favourite Colour--</option>
+          <option value="blue">Blue</option>
+          <option value="grey">Grey</option>
+          <option value="green">Green</option>
+          <option value="orange">Orange</option>
+          <option value="pink">Pink</option>
+          <option value="purple">Purple</option>
+          <option value="red">Red</option>
+          <option value="yellow">Yellow</option>
+        </select>
 
         {errorMessage && <p>{errorMessage}</p>}
 
