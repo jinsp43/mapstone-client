@@ -12,8 +12,12 @@ const LandingPage = () => {
       </h3>
 
       <div className="landing__link-wrapper">
-        <Link className="landing__link">Log In!</Link>
-        <Link className="landing__link">Sign Up!</Link>
+        <Link to="/login" className="landing__link">
+          Log In!
+        </Link>
+        <Link to="/signup" className="landing__link">
+          Sign Up!
+        </Link>
       </div>
     </main>
   );

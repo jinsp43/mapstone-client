@@ -1,0 +1,18 @@
+@use "../../styles/partials/mixins" as *;
+@use "../../styles/partials/variables" as *;
+
+.login-page {
+  background-color: $background;
+
+  &__heading {
+    margin: 0;
+  }
+}
+
+.login-form {
+  @include flex(flex-start, stretch, column);
+
+  &__input {
+    margin-bottom: 1.5rem;
+  }
+}
