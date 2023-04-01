@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { SIGNUP } from "../../utils/apiCalls.mjs";
 import "./SignupPage.scss";
