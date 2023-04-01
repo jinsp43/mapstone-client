@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { SIGNUP } from "../../utils/apiCalls.mjs";
 import "./SignupPage.scss";
@@ -17,9 +17,13 @@ const SignupPage = () => {
 
   const handleChange = (e) => {
     setFormFields({ ...formFields, [e.target.name]: e.target.value });
-
-    // could check pass and confirmpass dynamically if there is content in confirmpass
   };
+
+  // could check pass and confirmpass dynamically if there is content in confirmpass
+  let confirmError;
+  if (formFields.password !== formFields.confirmPassword) {
+    confirmError = "Passwords do not match";
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -93,6 +97,7 @@ const SignupPage = () => {
           className="signup-form__input"
           placeholder="Confirm your password..."
         />
+        {confirmError && <p className="signup-form__error">{confirmError}</p>}
 
         <label htmlFor="marker_colour" className="signup-form__label">
           (Optional) Your Favourite Colour
@@ -113,7 +118,7 @@ const SignupPage = () => {
           <option value="yellow">Yellow</option>
         </select>
 
-        {errorMessage && <p>{errorMessage}</p>}
+        {errorMessage && <p className="signup-form__error">{errorMessage}</p>}
 
         <button className="signup-form__submit" type="submit">
           Sign Up

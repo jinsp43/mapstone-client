@@ -32,6 +32,11 @@
     margin-bottom: 1.5rem;
   }
 
+  &__error {
+    margin: 0;
+    color: red;
+  }
+
   &__submit {
     @include button;
     margin: 1rem auto;
