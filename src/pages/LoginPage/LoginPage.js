@@ -22,8 +22,10 @@ const LoginPage = () => {
         </button>
       </form>
 
-      <p className="login-page__text">New Here?</p>
-      <Link className="login-page__link">Sign Up</Link>
+      <div className="login-page__new-wrapper">
+        <p className="login-page__text">New Here?</p>
+        <Link className="login-page__link">Sign Up</Link>
+      </div>
     </main>
   );
 };
