@@ -11,13 +11,28 @@
 
     &-wrapper {
       background-color: $neutral-light;
-      border-radius: 2rem;
-      padding: 1rem;
+      border-radius: 3rem;
+      padding: 1rem 3rem;
     }
   }
 
   &__username {
     margin: 0;
     font-size: 1.2rem;
+  }
+
+  &__list {
+    background-color: $neutral-light;
+    border-radius: 3rem;
+    min-height: 75%;
+    margin-top: 1rem;
+    padding: 1rem;
+    @include flex(space-between, stretch, column);
+  }
+
+  &__create-btn {
+    @include button;
+    margin: auto auto 0;
+    width: 85%;
   }
 }

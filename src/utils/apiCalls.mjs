@@ -14,3 +14,10 @@ export const GET_PROFILE = (authToken) =>
       authorisation: `Bearer ${authToken}`,
     },
   });
+
+export const GET_GROUPS = (authToken) =>
+  axios.get(`${baseURL}/groups`, {
+    headers: {
+      authorisation: `Bearer ${authToken}`,
+    },
+  });

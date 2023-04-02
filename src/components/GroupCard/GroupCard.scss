@@ -1,0 +1,25 @@
+@use "../../styles/partials/mixins" as *;
+@use "../../styles/partials/variables" as *;
+
+.group-card {
+  @include flex(flex-start, center, row);
+  margin-bottom: 1rem;
+
+  &:active {
+    background-color: $divider;
+  }
+
+  &__icon {
+    height: 4rem;
+    margin-right: 1rem;
+  }
+
+  &__text {
+    flex-grow: 1;
+    border-bottom: 1px solid $divider;
+  }
+
+  &__name {
+    margin: 1rem 0;
+  }
+}
