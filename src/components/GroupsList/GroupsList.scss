@@ -1,0 +1,23 @@
+@use "../../styles/partials/mixins" as *;
+@use "../../styles/partials/variables" as *;
+
+.groups {
+  background-color: $background;
+  padding: 1rem 1.6rem;
+  height: 100vh;
+
+  &__heading {
+    margin: 0;
+
+    &-wrapper {
+      background-color: $neutral-light;
+      border-radius: 2rem;
+      padding: 1rem;
+    }
+  }
+
+  &__username {
+    margin: 0;
+    font-size: 1.2rem;
+  }
+}

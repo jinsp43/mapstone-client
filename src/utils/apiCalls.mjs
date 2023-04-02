@@ -7,3 +7,10 @@ export const LOGIN = (userData) =>
 
 export const SIGNUP = (newUser) =>
   axios.post(`${baseURL}/users/signup`, newUser);
+
+export const GET_PROFILE = (authToken) =>
+  axios.get(`${baseURL}/users/profile`, {
+    headers: {
+      authorisation: `Bearer ${authToken}`,
+    },
+  });
