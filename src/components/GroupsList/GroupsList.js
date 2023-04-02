@@ -2,14 +2,26 @@ import { useEffect, useState } from "react";
 import { GET_GROUPS, GET_PROFILE } from "../../utils/apiCalls.mjs";
 import "./GroupsList.scss";
 import GroupCard from "../GroupCard/GroupCard.js";
+import CreateGroupModal from "../CreateGroupModal/CreateGroupModal.js";
 
 const GroupsList = () => {
   const [userData, setUserData] = useState({});
   const [groups, setGroups] = useState([]);
 
-  useEffect(() => {
-    const authToken = sessionStorage.getItem("authToken");
+  // Initial Render
+  const authToken = sessionStorage.getItem("authToken");
 
+  const getGroups = async () => {
+    try {
+      const { data } = await GET_GROUPS(authToken);
+      console.log(data);
+      setGroups(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
     const getUser = async () => {
       try {
         const { data } = await GET_PROFILE(authToken);
@@ -20,19 +32,16 @@ const GroupsList = () => {
       }
     };
 
-    const getGroups = async () => {
-      try {
-        const { data } = await GET_GROUPS(authToken);
-        console.log(data);
-        setGroups(data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
     getUser();
     getGroups();
+
+    // eslint-disable-next-line
   }, []);
+
+  const [showModal, setShowModal] = useState(false);
+
+  const modalOpenHandler = () => setShowModal(true);
+  const modalCloseHandler = () => setShowModal(false);
 
   return (
     <section className="groups">
@@ -52,7 +61,17 @@ const GroupsList = () => {
             <h4 className="groups__no-groups">To Get Started!</h4>
           </div>
         )}
-        <button className="groups__create-btn">Create A New Group</button>
+
+        <CreateGroupModal
+          getGroups={getGroups}
+          show={showModal}
+          authToken={authToken}
+          modalCloseHandler={modalCloseHandler}
+        />
+
+        <button onClick={modalOpenHandler} className="groups__create-btn">
+          Create A New Group
+        </button>
       </div>
     </section>
   );

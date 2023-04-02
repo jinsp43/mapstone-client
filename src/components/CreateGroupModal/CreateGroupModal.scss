@@ -1,0 +1,49 @@
+@use "../../styles/partials/mixins" as *;
+@use "../../styles/partials/variables" as *;
+
+.create-group-modal {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
+  @include flex(center, center);
+  background-color: #312f2f52;
+
+  &__content {
+    background-color: $neutral-dark;
+    border-radius: 2.5rem;
+    padding: 2rem 3rem;
+    width: 25rem;
+  }
+
+  &__heading {
+    color: $neutral-light;
+    margin: 0 0 2rem 0;
+  }
+
+  &__form {
+    @include flex(flex-start, stretch, column);
+  }
+
+  &__label {
+    color: $neutral-light;
+  }
+
+  &__submit {
+    @include button;
+    width: 100%;
+    margin-top: 2rem;
+  }
+
+  &__cancel {
+    @extend .create-group-modal__submit;
+  }
+
+  &__error {
+    color: red;
+    width: 100%;
+    margin: 0;
+  }
+}
