@@ -35,4 +35,16 @@
     margin: auto auto 0;
     width: 85%;
   }
+
+  &__no-groups {
+    margin: 0;
+    font-style: italic;
+    font-size: 1.8rem;
+    color: $primary;
+
+    &-wrapper {
+      text-align: center;
+      margin: auto;
+    }
+  }
 }

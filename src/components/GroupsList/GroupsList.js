@@ -34,10 +34,6 @@ const GroupsList = () => {
     getGroups();
   }, []);
 
-  if (!groups) {
-    return <p>Loading...</p>;
-  }
-
   return (
     <section className="groups">
       <div className="groups__heading-wrapper">
@@ -46,10 +42,16 @@ const GroupsList = () => {
       </div>
 
       <div className="groups__list">
-        {groups.map((group) => (
-          <GroupCard key={group.id} name={group.group_name} />
-        ))}
-
+        {groups.length ? (
+          groups.map((group) => (
+            <GroupCard key={group.id} name={group.group_name} />
+          ))
+        ) : (
+          <div className="groups__no-groups-wrapper">
+            <h4 className="groups__no-groups">Join or Create A New Group</h4>
+            <h4 className="groups__no-groups">To Get Started!</h4>
+          </div>
+        )}
         <button className="groups__create-btn">Create A New Group</button>
       </div>
     </section>
