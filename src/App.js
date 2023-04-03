@@ -16,7 +16,7 @@ const App = () => {
         <Route path="map" element={<MapPage />} />
         <Route path="login" element={<LoginPage />} />
         <Route path="signup" element={<SignupPage />} />
-        <Route path="build" element={<GroupsList />} />
+        <Route path="groups" element={<GroupsList />} />
       </Routes>
     </BrowserRouter>
   );

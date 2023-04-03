@@ -28,3 +28,10 @@ export const NEW_GROUP = (newGroup, authToken) =>
       authorisation: `Bearer ${authToken}`,
     },
   });
+
+export const USERS_IN_GROUP = (groupId, authToken) =>
+  axios.post(`${baseURL}/groups/users`, groupId, {
+    headers: {
+      authorisation: `Bearer ${authToken}`,
+    },
+  });

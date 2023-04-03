@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { LOGIN } from "../../utils/apiCalls.mjs";
 import "./LoginPage.scss";
 
@@ -10,6 +10,8 @@ const LoginPage = () => {
   });
 
   const [errorMessage, setErrorMessage] = useState("");
+
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormFields({ ...formFields, [e.target.name]: e.target.value });
@@ -28,6 +30,8 @@ const LoginPage = () => {
       const { data } = await LOGIN(formFields);
 
       sessionStorage.setItem("authToken", data.authToken);
+
+      navigate("/groups");
     } catch (error) {
       console.log(error.response);
       setErrorMessage(error.response.data.message);

@@ -3,10 +3,13 @@ import { GET_GROUPS, GET_PROFILE } from "../../utils/apiCalls.mjs";
 import "./GroupsList.scss";
 import GroupCard from "../GroupCard/GroupCard.js";
 import CreateGroupModal from "../CreateGroupModal/CreateGroupModal.js";
+import { useNavigate } from "react-router-dom";
 
 const GroupsList = () => {
   const [userData, setUserData] = useState({});
   const [groups, setGroups] = useState([]);
+
+  const navigate = useNavigate();
 
   // Initial Render
   const authToken = sessionStorage.getItem("authToken");
@@ -14,7 +17,7 @@ const GroupsList = () => {
   const getGroups = async () => {
     try {
       const { data } = await GET_GROUPS(authToken);
-      console.log(data);
+
       setGroups(data);
     } catch (error) {
       console.log(error);
@@ -29,11 +32,19 @@ const GroupsList = () => {
         setUserData(data);
       } catch (error) {
         console.log(error);
+
+        if ((error.response.status = 401)) {
+          navigate("/login");
+        }
       }
     };
 
     getUser();
     getGroups();
+
+    if (!authToken) {
+      navigate("/login");
+    }
 
     // eslint-disable-next-line
   }, []);
@@ -53,7 +64,12 @@ const GroupsList = () => {
       <div className="groups__list">
         {groups.length ? (
           groups.map((group) => (
-            <GroupCard key={group.id} name={group.group_name} />
+            <GroupCard
+              key={group.id}
+              name={group.group_name}
+              groupId={group.id}
+              authToken={authToken}
+            />
           ))
         ) : (
           <div className="groups__no-groups-wrapper">
