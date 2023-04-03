@@ -1,0 +1,50 @@
+@use "../../styles/partials/mixins" as *;
+@use "../../styles/partials/variables" as *;
+
+.members {
+  background-color: $background;
+  padding: 1rem 1.6rem;
+  height: 100vh;
+
+  &__heading {
+    margin: 0;
+
+    &-wrapper {
+      background-color: $neutral-light;
+      border-radius: 3rem;
+      padding: 1rem 3rem;
+    }
+  }
+
+  &__username {
+    margin: 0;
+    font-size: 1.2rem;
+  }
+
+  &__list {
+    background-color: $neutral-light;
+    border-radius: 3rem;
+    min-height: 75%;
+    margin-top: 1rem;
+    padding: 1rem;
+    @include flex(space-between, stretch, column);
+  }
+
+  &__create-btn {
+    @include button;
+    margin: auto auto 0;
+    width: 85%;
+  }
+
+  &__no-members {
+    margin: 0;
+    font-style: italic;
+    font-size: 1.8rem;
+    color: $primary;
+
+    &-wrapper {
+      text-align: center;
+      margin: auto;
+    }
+  }
+}
