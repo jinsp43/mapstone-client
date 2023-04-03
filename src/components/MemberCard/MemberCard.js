@@ -1,6 +1,6 @@
 import "./MemberCard.scss";
 
-const MemberCard = ({ name, colour }) => {
+const MemberCard = ({ name, colour, id }) => {
   return (
     <article className="member-card">
       {/* Allows dynamic setting of colour of person icon */}

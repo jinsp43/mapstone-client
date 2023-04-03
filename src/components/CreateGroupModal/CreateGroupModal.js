@@ -29,6 +29,7 @@ const CreateGroupModal = ({
     try {
       await NEW_GROUP(formFields, authToken);
       getGroups();
+      modalCloseHandler();
     } catch (error) {
       console.log(error.response);
       setErrorMessage(error.response.data.message);

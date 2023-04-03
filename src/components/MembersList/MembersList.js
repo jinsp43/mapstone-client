@@ -5,6 +5,7 @@ import {
   GET_PROFILE,
   USERS_IN_GROUP,
 } from "../../utils/apiCalls.mjs";
+import AddFriendModal from "../AddFriendModal/AddFriendModal.js";
 import MemberCard from "../MemberCard/MemberCard.js";
 import "./MembersList.scss";
 
@@ -17,14 +18,14 @@ const MembersList = () => {
 
   const { groupId } = useParams();
 
-  console.log(groupId);
-
   const authToken = sessionStorage.getItem("authToken");
 
   useEffect(() => {
     const getUser = async () => {
       try {
         const { data } = await GET_PROFILE(authToken);
+
+        console.log(data);
 
         setUserData(data);
       } catch (error) {
@@ -49,7 +50,7 @@ const MembersList = () => {
     const getGroupDetails = async () => {
       try {
         const { data } = await GET_GROUP_DETAILS(groupId, authToken);
-        console.log(data);
+
         setGroupDetails(data);
       } catch (error) {
         console.log(error);
@@ -64,6 +65,11 @@ const MembersList = () => {
       navigate("/login");
     }
   }, [authToken, groupId, navigate]);
+
+  const [showModal, setShowModal] = useState(false);
+
+  const modalOpenHandler = () => setShowModal(true);
+  const modalCloseHandler = () => setShowModal(false);
 
   if (!groupDetails) {
     return <p>Loading...</p>;
@@ -82,17 +88,18 @@ const MembersList = () => {
             key={member.id}
             name={member.username}
             colour={member.marker_colour}
+            id={member.id}
           />
         ))}
 
-        {/* <CreateGroupModal
-          getGroups={getGroups}
+        <AddFriendModal
           show={showModal}
-          authToken={authToken}
           modalCloseHandler={modalCloseHandler}
-        /> */}
+        />
 
-        <button className="members__create-btn">+ Add A Friend</button>
+        <button onClick={modalOpenHandler} className="members__create-btn">
+          + Add A Friend
+        </button>
       </div>
     </section>
   );
