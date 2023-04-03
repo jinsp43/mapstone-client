@@ -10,7 +10,7 @@ const GroupCard = ({ name, groupId, authToken }) => {
   useEffect(() => {
     const getUsers = async () => {
       try {
-        const { data } = await USERS_IN_GROUP({ group_id: groupId }, authToken);
+        const { data } = await USERS_IN_GROUP(groupId, authToken);
 
         console.log(data);
         setUsersInGroup(data);

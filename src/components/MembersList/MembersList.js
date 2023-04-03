@@ -1,12 +1,23 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { GET_PROFILE } from "../../utils/apiCalls.mjs";
+import { useNavigate, useParams } from "react-router-dom";
+import {
+  GET_GROUP_DETAILS,
+  GET_PROFILE,
+  USERS_IN_GROUP,
+} from "../../utils/apiCalls.mjs";
+import MemberCard from "../MemberCard/MemberCard.js";
 import "./MembersList.scss";
 
 const MembersList = () => {
   const [userData, setUserData] = useState({});
+  const [members, setMembers] = useState([]);
+  const [groupDetails, setGroupDetails] = useState();
 
   const navigate = useNavigate();
+
+  const { groupId } = useParams();
+
+  console.log(groupId);
 
   const authToken = sessionStorage.getItem("authToken");
 
@@ -14,7 +25,7 @@ const MembersList = () => {
     const getUser = async () => {
       try {
         const { data } = await GET_PROFILE(authToken);
-        console.log(data);
+
         setUserData(data);
       } catch (error) {
         console.log(error);
@@ -25,38 +36,54 @@ const MembersList = () => {
       }
     };
 
+    const getUsers = async () => {
+      try {
+        const { data } = await USERS_IN_GROUP(groupId, authToken);
+
+        setMembers(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    const getGroupDetails = async () => {
+      try {
+        const { data } = await GET_GROUP_DETAILS(groupId, authToken);
+        console.log(data);
+        setGroupDetails(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    getGroupDetails();
     getUser();
+    getUsers();
 
     if (!authToken) {
       navigate("/login");
     }
+  }, [authToken, groupId, navigate]);
 
-    // eslint-disable-next-line
-  }, []);
+  if (!groupDetails) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <section className="members">
       <div className="members__heading-wrapper">
-        <h3 className="members__heading">Groups</h3>
-        <p className="members__username">Your username: {userData.username}</p>
+        <h3 className="members__heading">{groupDetails.group_name}</h3>
+        <p className="members__username">Est. {groupDetails.created_at}</p>
       </div>
 
       <div className="members__list">
-        {/* {groups.length ? (
-          groups.map((group) => (
-            <GroupCard
-              key={group.id}
-              name={group.group_name}
-              groupId={group.id}
-              authToken={authToken}
-            />
-          ))
-        ) : (
-          <div className="members__no-members-wrapper">
-            <h4 className="members__no-members">Join or Create A New Group</h4>
-            <h4 className="members__no-members">To Get Started!</h4>
-          </div>
-        )} */}
+        {members.map((member) => (
+          <MemberCard
+            key={member.id}
+            name={member.username}
+            colour={member.marker_colour}
+          />
+        ))}
 
         {/* <CreateGroupModal
           getGroups={getGroups}
@@ -65,9 +92,7 @@ const MembersList = () => {
           modalCloseHandler={modalCloseHandler}
         /> */}
 
-        {/* <button onClick={modalOpenHandler} className="members__create-btn">
-          Create A New Group
-        </button> */}
+        <button className="members__create-btn">+ Add A Friend</button>
       </div>
     </section>
   );

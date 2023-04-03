@@ -1,0 +1,38 @@
+@use "../../styles/partials/mixins" as *;
+@use "../../styles/partials/variables" as *;
+
+.member-card {
+  @include flex(flex-start, center, row);
+  color: $neutral-dark;
+
+  &:active {
+    background-color: $divider;
+  }
+
+  &__link {
+    text-decoration: none;
+    color: $neutral-dark;
+    margin-bottom: 1rem;
+  }
+
+  &__icon {
+    height: 2rem;
+    margin-right: 1rem;
+    color: pink;
+  }
+
+  &__text {
+    flex-grow: 1;
+    border-bottom: 1px solid $divider;
+  }
+
+  &__name {
+    margin: 1rem 0;
+    font-size: 1.4rem;
+  }
+
+  &__users {
+    margin: 0.4rem 0 0;
+    font-size: 1.2rem;
+  }
+}
