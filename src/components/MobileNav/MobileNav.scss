@@ -13,6 +13,7 @@
   &__link {
     @include flex(center, center, column);
     width: 20%;
+    text-decoration: none;
     cursor: pointer;
   }
 
