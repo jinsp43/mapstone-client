@@ -34,25 +34,6 @@ const MapPage = () => {
     },
   ]);
 
-  // example markers array - the vanilla way
-  //   const markers = [
-  //     {
-  //       title: "Keu!",
-  //       longitude: -0.0815,
-  //       latitude: 51.5266,
-  //     },
-  //     {
-  //       title: "Island Poke",
-  //       longitude: -0.0807,
-  //       latitude: 51.5248,
-  //     },
-  //     {
-  //       title: "Subway",
-  //       longitude: -0.081,
-  //       latitude: 51.5249,
-  //     },
-  //   ];
-
   let features;
   let markersData;
 
@@ -120,15 +101,37 @@ const MapPage = () => {
         }
       );
     });
+
+    const popup = new mapboxgl.Popup({
+      closeButton: true,
+      closeOnClick: true,
+    });
+
+    map.current.on("click", (e) => {
+      const features = map.current.queryRenderedFeatures(e.point, {
+        layers: ["poi-label", "transit-label"],
+      });
+
+      const feature = features[0];
+
+      if (feature) {
+        console.log("Coordinates:", e.lngLat);
+        console.log("Name:", feature.properties.name);
+        popup
+          .setLngLat(e.lngLat)
+          .setHTML(
+            `<h3>${
+              feature.properties.name
+            }</h3><p>Latitude: ${e.lngLat.lat.toFixed(
+              4
+            )}, Longitude: ${e.lngLat.lng.toFixed(4)}</p>`
+          )
+          .addTo(map.current);
+      }
+    });
   });
 
   const clickHandler = () => {
-    // markers.push({
-    //   title: "BrainStation",
-    //   longitude: -0.081,
-    //   latitude: 51.5263,
-    // });
-
     setMarkers([
       ...markers,
       {
@@ -137,13 +140,6 @@ const MapPage = () => {
         latitude: 51.5263,
       },
     ]);
-
-    // === the vanilla way
-    // loop over markers to turn them into needed format
-    // markersToData();
-
-    // console.log(markersData.features);
-    // map.current.getSource("points").setData(markersData);
   };
 
   // === the state & useEffect way
