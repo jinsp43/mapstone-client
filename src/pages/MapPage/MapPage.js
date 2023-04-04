@@ -3,6 +3,7 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import React, { useRef, useEffect, useState } from "react";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 import MobileNav from "../../components/MobileNav/MobileNav";
+import LocationToast from "../../components/LocationToast/LocationToast";
 
 const MapPage = () => {
   mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
@@ -34,12 +35,12 @@ const MapPage = () => {
     },
   ]);
 
-  let features;
+  let ourFeatures;
   let markersData;
 
   // convert markers to required GeoJSON format
   const markersToData = () => {
-    features = markers.map((marker) => {
+    ourFeatures = markers.map((marker) => {
       return {
         type: "Feature",
         geometry: {
@@ -55,11 +56,13 @@ const MapPage = () => {
 
     markersData = {
       type: "FeatureCollection",
-      features: features,
+      features: ourFeatures,
     };
   };
 
   markersToData();
+
+  const [feature, setFeature] = useState();
 
   // Initial load of map
   useEffect(() => {
@@ -102,31 +105,35 @@ const MapPage = () => {
       );
     });
 
-    const popup = new mapboxgl.Popup({
-      closeButton: true,
-      closeOnClick: true,
-    });
+    // const popup = new mapboxgl.Popup({
+    //   closeButton: true,
+    //   closeOnClick: true,
+    // });
 
     map.current.on("click", (e) => {
       const features = map.current.queryRenderedFeatures(e.point, {
         layers: ["poi-label", "transit-label"],
       });
 
-      const feature = features[0];
+      setFeature();
 
-      if (feature) {
+      if (features.length) {
+        const feature = features[0];
         console.log("Coordinates:", e.lngLat);
         console.log("Name:", feature.properties.name);
-        popup
-          .setLngLat(e.lngLat)
-          .setHTML(
-            `<h3>${
-              feature.properties.name
-            }</h3><p>Latitude: ${e.lngLat.lat.toFixed(
-              4
-            )}, Longitude: ${e.lngLat.lng.toFixed(4)}</p>`
-          )
-          .addTo(map.current);
+        feature.coords = e.lngLat;
+        setFeature(feature);
+        console.log(feature);
+        // popup
+        //   .setLngLat(e.lngLat)
+        //   .setHTML(
+        //     `<h3>${
+        //       feature.properties.name
+        //     }</h3><p>Latitude: ${e.lngLat.lat.toFixed(
+        //       4
+        //     )}, Longitude: ${e.lngLat.lng.toFixed(4)}</p>`
+        //   )
+        //   .addTo(map.current);
       }
     });
   });
@@ -138,6 +145,17 @@ const MapPage = () => {
         title: "BrainStation",
         longitude: -0.081,
         latitude: 51.5263,
+      },
+    ]);
+  };
+
+  const addMarker = (title, longitude, latitude) => {
+    setMarkers([
+      ...markers,
+      {
+        title: title,
+        longitude: longitude,
+        latitude: latitude,
       },
     ]);
   };
@@ -155,6 +173,14 @@ const MapPage = () => {
       <main className="map-page">
         <div ref={mapContainer} className="map-container" />
       </main>
+      {feature && (
+        <LocationToast
+          locName={feature.properties.name}
+          lng={feature.coords.lng}
+          lat={feature.coords.lat}
+          addMarker={addMarker}
+        />
+      )}
       <MobileNav addPlace={clickHandler} />
     </>
   );
