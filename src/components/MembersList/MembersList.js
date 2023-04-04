@@ -20,6 +20,20 @@ const MembersList = () => {
 
   const authToken = sessionStorage.getItem("authToken");
 
+  if (!authToken) {
+    navigate("/login");
+  }
+
+  const getMembers = async () => {
+    try {
+      const { data } = await USERS_IN_GROUP(groupId, authToken);
+
+      setMembers(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     const getUser = async () => {
       try {
@@ -37,16 +51,6 @@ const MembersList = () => {
       }
     };
 
-    const getUsers = async () => {
-      try {
-        const { data } = await USERS_IN_GROUP(groupId, authToken);
-
-        setMembers(data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
     const getGroupDetails = async () => {
       try {
         const { data } = await GET_GROUP_DETAILS(groupId, authToken);
@@ -54,16 +58,16 @@ const MembersList = () => {
         setGroupDetails(data);
       } catch (error) {
         console.log(error);
+
+        if ((error.response.status = 401)) {
+          navigate("/groups");
+        }
       }
     };
 
     getGroupDetails();
     getUser();
-    getUsers();
-
-    if (!authToken) {
-      navigate("/login");
-    }
+    getMembers();
   }, [authToken, groupId, navigate]);
 
   const [showModal, setShowModal] = useState(false);
@@ -95,6 +99,7 @@ const MembersList = () => {
         <AddFriendModal
           show={showModal}
           modalCloseHandler={modalCloseHandler}
+          getMembers={getMembers}
         />
 
         <button onClick={modalOpenHandler} className="members__create-btn">

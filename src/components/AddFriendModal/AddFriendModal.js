@@ -1,11 +1,17 @@
 import { useState } from "react";
+import { useParams } from "react-router-dom";
+import { POST_USER_TO_GROUP } from "../../utils/apiCalls.mjs";
 import "./AddFriendModal.scss";
 
-const AddFriendModal = ({ show, modalCloseHandler }) => {
+const AddFriendModal = ({ show, modalCloseHandler, getMembers }) => {
   const [formFields, setFormFields] = useState({
     username: "",
   });
   const [errorMessage, setErrorMessage] = useState("");
+
+  const authToken = sessionStorage.getItem("authToken");
+
+  const { groupId } = useParams();
 
   const handleChange = (e) => {
     setFormFields({ ...formFields, [e.target.name]: e.target.value });
@@ -20,14 +26,15 @@ const AddFriendModal = ({ show, modalCloseHandler }) => {
       return;
     }
 
-    // try {
-    //   await NEW_GROUP(formFields, authToken);
-    //   getGroups();
-    //   modalCloseHandler();
-    // } catch (error) {
-    //   console.log(error.response);
-    //   setErrorMessage(error.response.data.message);
-    // }
+    try {
+      await POST_USER_TO_GROUP(groupId, formFields, authToken);
+
+      getMembers();
+      modalCloseHandler();
+    } catch (error) {
+      console.log(error.response);
+      setErrorMessage(error.response.data.message);
+    }
   };
 
   if (!show) {
