@@ -5,7 +5,7 @@ import add from "../../assets/icons/Add.svg";
 import settings from "../../assets/icons/Settings.svg";
 import profile from "../../assets/icons/Profile.svg";
 
-const MobileNav = () => {
+const MobileNav = ({ addPlace }) => {
   return (
     <nav className="mobile-nav">
       <div className="mobile-nav__link">
@@ -18,7 +18,7 @@ const MobileNav = () => {
         <p className="mobile-nav__text">Places</p>
       </div>
 
-      <div className="mobile-nav__link">
+      <div onClick={addPlace} className="mobile-nav__link">
         <img className="mobile-nav__icon" src={add} alt="Add" />
         <p className="mobile-nav__text">Add a Place</p>
       </div>

@@ -5,9 +5,6 @@
   background-color: $primary;
   padding: 1rem 0;
   @include flex(space-between);
-  // position: fixed;
-  // bottom: 0;
-  // width: 100%;
 
   @include tablet {
     display: none;
@@ -16,6 +13,7 @@
   &__link {
     @include flex(center, center, column);
     width: 20%;
+    cursor: pointer;
   }
 
   &__icon {

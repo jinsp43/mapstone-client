@@ -158,9 +158,8 @@ const MapPage = () => {
     <>
       <main className="map-page">
         <div ref={mapContainer} className="map-container" />
-        <button onClick={clickHandler}>Add a new marker</button>
       </main>
-      <MobileNav />
+      <MobileNav addPlace={clickHandler} />
     </>
   );
 };
