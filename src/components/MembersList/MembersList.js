@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import {
   GET_GROUP_DETAILS,
   GET_PROFILE,
@@ -38,8 +38,6 @@ const MembersList = () => {
     const getUser = async () => {
       try {
         const { data } = await GET_PROFILE(authToken);
-
-        console.log(data);
 
         setUserData(data);
       } catch (error) {
@@ -105,6 +103,10 @@ const MembersList = () => {
         <button onClick={modalOpenHandler} className="members__create-btn">
           + Add A Friend
         </button>
+
+        <Link to="/map" className="members__map-btn">
+          Go To Map
+        </Link>
       </div>
     </section>
   );

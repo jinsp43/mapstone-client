@@ -37,6 +37,11 @@
     cursor: pointer;
   }
 
+  &__map-btn {
+    @extend .members__create-btn;
+    margin-top: 1rem;
+  }
+
   &__no-members {
     margin: 0;
     font-style: italic;

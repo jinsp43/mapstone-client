@@ -93,7 +93,7 @@ const MapPage = () => {
     map.current.on("load", () => {
       // Add an image to use as a custom marker
       map.current.loadImage(
-        "http://localhost:5050/images/mapbox-marker-icon-20px-orange.png",
+        "http://localhost:5050/images/marker-orange.png",
         (error, image) => {
           if (error) throw error;
           map.current.addImage("custom-marker", image);
@@ -156,7 +156,7 @@ const MapPage = () => {
 
   return (
     <>
-      <main>
+      <main className="map-page">
         <div ref={mapContainer} className="map-container" />
         <button onClick={clickHandler}>Add a new marker</button>
       </main>

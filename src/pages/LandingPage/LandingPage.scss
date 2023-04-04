@@ -4,7 +4,7 @@
 .landing {
   background-color: $background;
   padding: 3rem 0;
-  height: 100vh;
+  flex-grow: 1;
 
   &__heading {
     text-align: center;
