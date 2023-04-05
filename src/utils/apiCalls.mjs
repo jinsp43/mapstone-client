@@ -51,3 +51,11 @@ export const POST_USER_TO_GROUP = (groupId, username, authToken) =>
       authorisation: `Bearer ${authToken}`,
     },
   });
+
+//    MARKERS
+export const GET_MARKERS = (groupId, authToken) =>
+  axios.get(`${baseURL}/markers/${groupId}`, {
+    headers: {
+      authorisation: `Bearer ${authToken}`,
+    },
+  });

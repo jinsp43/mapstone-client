@@ -4,6 +4,7 @@ import React, { useRef, useEffect, useState } from "react";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 import MobileNav from "../../components/MobileNav/MobileNav";
 import LocationToast from "../../components/LocationToast/LocationToast";
+import { GET_MARKERS } from "../../utils/apiCalls.mjs";
 
 const MapPage = () => {
   mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
@@ -11,58 +12,41 @@ const MapPage = () => {
   const mapContainer = useRef(null);
   const map = useRef(null);
 
+  const authToken = sessionStorage.getItem("authToken");
+
   // default map position set at BStn
   const [lng, setLng] = useState(-0.081);
   const [lat, setLat] = useState(51.5263);
   const [zoom, setZoom] = useState(16.2);
 
   // the state way
-  const [markers, setMarkers] = useState([
-    {
-      title: "Keu!",
-      longitude: -0.0815,
-      latitude: 51.5266,
-    },
-    {
-      title: "Island Poke",
-      longitude: -0.0807,
-      latitude: 51.5248,
-    },
-    {
-      title: "Subway",
-      longitude: -0.081,
-      latitude: 51.5249,
-    },
-  ]);
+  const [markers, setMarkers] = useState([]);
 
-  let ourFeatures;
-  let markersData;
+  useEffect(() => {
+    const getMarkers = async () => {
+      try {
+        const { data } = await GET_MARKERS(2, authToken);
+
+        console.log(data);
+
+        setMarkers(data);
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+
+    getMarkers();
+  }, [authToken]);
+
+  // let ourFeatures;
+  // let markersData;
 
   // convert markers to required GeoJSON format
-  const markersToData = () => {
-    ourFeatures = markers.map((marker) => {
-      return {
-        type: "Feature",
-        geometry: {
-          type: "Point",
-          coordinates: [marker.longitude, marker.latitude],
-        },
 
-        properties: {
-          title: marker.title,
-        },
-      };
-    });
-
-    markersData = {
-      type: "FeatureCollection",
-      features: ourFeatures,
-    };
-  };
-
-  markersToData();
+  // markersToData();
 
   const [feature, setFeature] = useState();
+  const [isSourceActive, setIsSourceActive] = useState(false);
 
   // Initial load of map
   useEffect(() => {
@@ -84,7 +68,10 @@ const MapPage = () => {
           // Add a GeoJSON source
           map.current.addSource("points", {
             type: "geojson",
-            data: markersData,
+            data: {
+              type: "FeatureCollection",
+              features: [],
+            },
           });
 
           // Add a symbol layer
@@ -101,6 +88,7 @@ const MapPage = () => {
               "text-anchor": "top",
             },
           });
+          setIsSourceActive(true);
         }
       );
     });
@@ -160,13 +148,34 @@ const MapPage = () => {
     ]);
   };
 
-  // === the state & useEffect way
   useEffect(() => {
     if (!map.current.getSource("points")) return;
-    markersToData();
-    console.log(markersData.features);
+
+    const markersToData = () => {
+      const ourFeatures = markers.map((marker) => {
+        return {
+          type: "Feature",
+          geometry: {
+            type: "Point",
+            coordinates: [marker.longitude, marker.latitude],
+          },
+
+          properties: {
+            title: marker.title,
+          },
+        };
+      });
+
+      return {
+        type: "FeatureCollection",
+        features: ourFeatures,
+      };
+    };
+
+    console.log("Markers Updated");
+    const markersData = markersToData();
     map.current.getSource("points").setData(markersData);
-  }, [markers]);
+  }, [markers, isSourceActive]);
 
   return (
     <>
