@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { GET_GROUPS, GET_PROFILE } from "../../utils/apiCalls.mjs";
 import "./GroupsList.scss";
 import GroupCard from "../GroupCard/GroupCard.js";
@@ -14,7 +14,7 @@ const GroupsList = () => {
   // Initial Render
   const authToken = sessionStorage.getItem("authToken");
 
-  const getGroups = async () => {
+  const getGroups = useCallback(async () => {
     try {
       const { data } = await GET_GROUPS(authToken);
 
@@ -22,7 +22,7 @@ const GroupsList = () => {
     } catch (error) {
       console.log(error);
     }
-  };
+  }, [authToken]);
 
   useEffect(() => {
     const getUser = async () => {
@@ -45,9 +45,7 @@ const GroupsList = () => {
     if (!authToken) {
       navigate("/login");
     }
-
-    // eslint-disable-next-line
-  }, []);
+  }, [authToken, navigate, getGroups]);
 
   const [showModal, setShowModal] = useState(false);
 

@@ -14,7 +14,7 @@ const App = () => {
       <Header />
       <Routes>
         <Route path="landing" element={<LandingPage />} />
-        <Route path="map" element={<MapPage />} />
+        <Route path="map/:groupId" element={<MapPage />} />
         <Route path="login" element={<LoginPage />} />
         <Route path="signup" element={<SignupPage />} />
         <Route path="groups" element={<GroupsList />} />

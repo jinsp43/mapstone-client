@@ -6,7 +6,7 @@ import settings from "../../assets/icons/Settings.svg";
 import profile from "../../assets/icons/Profile.svg";
 import { Link } from "react-router-dom";
 
-const MobileNav = ({ addPlace }) => {
+const MobileNav = () => {
   return (
     <nav className="mobile-nav">
       <Link to="/groups" className="mobile-nav__link">
@@ -19,7 +19,7 @@ const MobileNav = ({ addPlace }) => {
         <p className="mobile-nav__text">Places</p>
       </Link>
 
-      <div onClick={addPlace} className="mobile-nav__link">
+      <div className="mobile-nav__link">
         <img className="mobile-nav__icon" src={add} alt="Add" />
         <p className="mobile-nav__text">Add a Place</p>
       </div>

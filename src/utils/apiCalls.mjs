@@ -52,9 +52,23 @@ export const POST_USER_TO_GROUP = (groupId, username, authToken) =>
     },
   });
 
-//    MARKERS
+//  MARKERS
 export const GET_MARKERS = (groupId, authToken) =>
   axios.get(`${baseURL}/markers/${groupId}`, {
+    headers: {
+      authorisation: `Bearer ${authToken}`,
+    },
+  });
+
+export const POST_MARKER = (groupId, marker, authToken) =>
+  axios.post(`${baseURL}/markers/${groupId}`, marker, {
+    headers: {
+      authorisation: `Bearer ${authToken}`,
+    },
+  });
+
+export const DELETE_MARKER = (markerId, authToken) =>
+  axios.delete(`${baseURL}/markers/${markerId}`, {
     headers: {
       authorisation: `Bearer ${authToken}`,
     },

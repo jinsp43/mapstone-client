@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import {
   GET_GROUP_DETAILS,
@@ -24,7 +24,7 @@ const MembersList = () => {
     navigate("/login");
   }
 
-  const getMembers = async () => {
+  const getMembers = useCallback(async () => {
     try {
       const { data } = await USERS_IN_GROUP(groupId, authToken);
 
@@ -32,7 +32,7 @@ const MembersList = () => {
     } catch (error) {
       console.log(error);
     }
-  };
+  }, [authToken, groupId]);
 
   useEffect(() => {
     const getUser = async () => {
@@ -66,7 +66,7 @@ const MembersList = () => {
     getGroupDetails();
     getUser();
     getMembers();
-  }, [authToken, groupId, navigate]);
+  }, [authToken, groupId, navigate, getMembers]);
 
   const [showModal, setShowModal] = useState(false);
 
@@ -104,7 +104,7 @@ const MembersList = () => {
           + Add A Friend
         </button>
 
-        <Link to="/map" className="members__map-btn">
+        <Link to={`/map/${groupId}`} className="members__map-btn">
           Go To Map
         </Link>
       </div>
