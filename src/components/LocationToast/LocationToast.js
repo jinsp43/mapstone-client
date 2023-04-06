@@ -3,13 +3,7 @@ import addMarkerIcon from "../../assets/icons/AddMarker.svg";
 import removeMarkerIcon from "../../assets/icons/RemoveMarker.svg";
 import { useEffect, useState } from "react";
 
-const LocationToast = ({
-  feature,
-  addMarker,
-  deleteMarker,
-  setLng,
-  setLat,
-}) => {
+const LocationToast = ({ feature, addMarker, deleteMarker }) => {
   const [isMarker, setIsMarker] = useState(false);
   const [markerId, setMarkerId] = useState(feature.id);
 
@@ -21,13 +15,11 @@ const LocationToast = ({
     // if it is a marker, add params to URL
     if (feature.layer.id === "points") {
       setIsMarker(true);
-      setLng(feature.geometry.coordinates[0]);
-      setLat(feature.geometry.coordinates[1]);
       return window.history.pushState({}, "", `?id=${feature.id}`);
     }
 
     setIsMarker(false);
-  }, [feature.id, feature.layer.id]);
+  }, [feature]);
 
   const addClickHandler = async () => {
     const addedMarker = await addMarker(

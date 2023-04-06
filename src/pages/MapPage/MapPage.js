@@ -180,6 +180,12 @@ const MapPage = () => {
         });
       }
     });
+
+    map.current.on("move", () => {
+      setLng(map.current.getCenter().lng.toFixed(7));
+      setLat(map.current.getCenter().lat.toFixed(7));
+      setZoom(map.current.getZoom().toFixed(2));
+    });
   });
 
   // add a new marker to markers array
@@ -290,8 +296,6 @@ const MapPage = () => {
             feature={feature}
             addMarker={addMarker}
             deleteMarker={deleteMarker}
-            setLng={setLng}
-            setLat={setLat}
           />
         )}
       </main>
