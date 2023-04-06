@@ -70,7 +70,9 @@ const LocationToast = ({
       </div>
 
       <p className="loc-toast__type">{feature.properties.type}</p>
-      <p className="loc-toast__user">{feature.properties.username}'s Place</p>
+      {feature.properties.username && (
+        <p className="loc-toast__user">{feature.properties.username}'s Place</p>
+      )}
     </article>
   );
 };

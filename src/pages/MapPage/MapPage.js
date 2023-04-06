@@ -132,10 +132,21 @@ const MapPage = () => {
                 "green-marker",
                 "orange-marker",
               ],
+              "icon-size": 0.125,
               // get the name from the source's "name" property
               "text-field": ["get", "name"],
-              "text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
-              "text-offset": [0, 0.25],
+              "text-font": [
+                "Rubik Regular",
+                "Roboto Condensed Regular",
+                "Roboto Medium",
+                "Roboto Slab Bold",
+                "Roboto Condensed Bold",
+                "Montserrat Medium",
+                "DIN Offc Pro Medium",
+                "Arial Unicode MS Bold",
+              ],
+              "text-size": 12,
+              "text-offset": [0, 1.5],
               "text-anchor": "top",
             },
           });
