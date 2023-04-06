@@ -4,33 +4,38 @@ import removeMarkerIcon from "../../assets/icons/RemoveMarker.svg";
 import { useEffect, useState } from "react";
 
 const LocationToast = ({
-  id,
-  locName,
+  feature,
   addMarker,
   deleteMarker,
-  lng,
-  lat,
-  layer,
+  setLng,
+  setLat,
 }) => {
   const [isMarker, setIsMarker] = useState(false);
-  const [markerId, setMarkerId] = useState(id);
+  const [markerId, setMarkerId] = useState(feature.id);
 
   // Initial load, get id and check if its already a marker
   useEffect(() => {
-    console.log(`marker id updated to ${id}`);
-    setMarkerId(id);
+    setMarkerId(feature.id);
+    console.log(feature);
 
     // if it is a marker, add params to URL
-    if (layer === "points") {
+    if (feature.layer.id === "points") {
       setIsMarker(true);
-      return window.history.pushState({}, "", `?id=${id}`);
+      setLng(feature.geometry.coordinates[0]);
+      setLat(feature.geometry.coordinates[1]);
+      return window.history.pushState({}, "", `?id=${feature.id}`);
     }
 
     setIsMarker(false);
-  }, [id, layer]);
+  }, [feature.id, feature.layer.id]);
 
   const addClickHandler = async () => {
-    const addedMarker = await addMarker(locName, lng, lat);
+    const addedMarker = await addMarker(
+      feature.properties.name,
+      feature.geometry.coordinates[0],
+      feature.geometry.coordinates[1],
+      feature.properties.type
+    );
     // use the id of the marker instead of the poi
     setMarkerId(addedMarker.data.id);
     setIsMarker(true);
@@ -46,7 +51,7 @@ const LocationToast = ({
   return (
     <article className="loc-toast">
       <div className="loc-toast__heading-wrapper">
-        <h3 className="loc-toast__heading">{locName}</h3>
+        <h3 className="loc-toast__heading">{feature.properties.name}</h3>
         {isMarker ? (
           <img
             src={removeMarkerIcon}
@@ -63,6 +68,8 @@ const LocationToast = ({
           />
         )}
       </div>
+
+      <p className="loc-toast__type">{feature.properties.type}</p>
     </article>
   );
 };

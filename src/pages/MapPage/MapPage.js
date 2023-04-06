@@ -9,15 +9,21 @@ import {
   GET_MARKERS,
   POST_MARKER,
 } from "../../utils/apiCalls.mjs";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const MapPage = () => {
   mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
+
+  const navigate = useNavigate();
 
   const mapContainer = useRef(null);
   const map = useRef(null);
 
   const authToken = sessionStorage.getItem("authToken");
+
+  if (!authToken) {
+    navigate("/login");
+  }
 
   const { groupId } = useParams();
 
@@ -103,21 +109,31 @@ const MapPage = () => {
       setFeature();
       window.history.pushState({}, "", window.location.pathname);
 
+      const currentZoom = map.current.getZoom();
       if (features.length) {
         const feature = features[0];
-        console.log(feature);
         setFeature(feature);
+
+        map.current.flyTo({
+          center: [
+            feature.geometry.coordinates[0],
+            feature.geometry.coordinates[1],
+          ],
+          zoom: currentZoom > 15 ? currentZoom : 15,
+          speed: 0.8,
+        });
       }
     });
   });
 
   // add a new marker to markers array
-  const addMarker = async (name, longitude, latitude) => {
+  const addMarker = async (name, longitude, latitude, type) => {
     try {
       const newMarker = {
         name: name,
         longitude: longitude,
         latitude: latitude,
+        type: type,
       };
 
       const addedMarker = await POST_MARKER(groupId, newMarker, authToken);
@@ -161,6 +177,7 @@ const MapPage = () => {
 
           properties: {
             name: marker.name,
+            type: marker.type,
           },
         };
       });
@@ -189,6 +206,17 @@ const MapPage = () => {
       if (feature) {
         feature.layer = { id: "points" };
         setFeature(feature);
+
+        const currentZoom = map.current.getZoom();
+
+        map.current.flyTo({
+          center: [
+            feature.geometry.coordinates[0],
+            feature.geometry.coordinates[1],
+          ],
+          zoom: currentZoom > 15 ? currentZoom : 15,
+          speed: 0.8,
+        });
       }
     }
   }, [markersAdded]);
@@ -200,13 +228,11 @@ const MapPage = () => {
 
         {feature && (
           <LocationToast
-            id={feature.id}
-            locName={feature.properties.name}
-            lng={feature.geometry.coordinates[0]}
-            lat={feature.geometry.coordinates[1]}
-            layer={feature.layer.id}
+            feature={feature}
             addMarker={addMarker}
             deleteMarker={deleteMarker}
+            setLng={setLng}
+            setLat={setLat}
           />
         )}
       </main>
