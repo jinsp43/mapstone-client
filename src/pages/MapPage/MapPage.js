@@ -137,17 +137,19 @@ const MapPage = () => {
               "text-field": ["get", "name"],
               "text-font": [
                 "Rubik Regular",
-                "Roboto Condensed Regular",
-                "Roboto Medium",
-                "Roboto Slab Bold",
-                "Roboto Condensed Bold",
-                "Montserrat Medium",
                 "DIN Offc Pro Medium",
                 "Arial Unicode MS Bold",
               ],
               "text-size": 12,
-              "text-offset": [0, 1.5],
-              "text-anchor": "top",
+              "text-offset": [1, 1.5],
+              "text-variable-anchor": ["top", "left", "right"],
+              "icon-allow-overlap": true,
+              "icon-ignore-placement": true,
+              "icon-padding": 0,
+              "text-optional": true,
+            },
+            paint: {
+              "text-opacity": ["step", ["zoom"], 0, 12.5, 1],
             },
           });
         }
