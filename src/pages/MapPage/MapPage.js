@@ -44,6 +44,7 @@ const MapPage = () => {
     try {
       const { data } = await GET_MARKERS(groupId, authToken);
 
+      console.log(data);
       setMarkers(data);
     } catch (error) {
       console.log(error.message);
@@ -53,6 +54,17 @@ const MapPage = () => {
   useEffect(() => {
     getMarkers();
   }, [authToken, groupId, getMarkers]);
+
+  // excluding orange, which is default/backup colour
+  const markerColours = [
+    "pink",
+    "blue",
+    "grey",
+    "purple",
+    "red",
+    "yellow",
+    "green",
+  ];
 
   // Initial load of map
   useEffect(() => {
@@ -64,13 +76,27 @@ const MapPage = () => {
       zoom: zoom,
     });
 
+    const loadAddImage = (colour) => {
+      map.current.loadImage(
+        `http://localhost:5050/images/marker-${colour}.png`,
+        (error, image) => {
+          if (error) throw error;
+          map.current.addImage(`${colour}-marker`, image);
+        }
+      );
+    };
+
     map.current.on("load", () => {
+      markerColours.forEach((colour) => {
+        loadAddImage(colour);
+      });
+
       // Marker image from our API
       map.current.loadImage(
         "http://localhost:5050/images/marker-orange.png",
         (error, image) => {
           if (error) throw error;
-          map.current.addImage("custom-marker", image);
+          map.current.addImage("orange-marker", image);
           // Add GeoJSON source for markers
           map.current.addSource("points", {
             type: "geojson",
@@ -88,7 +114,24 @@ const MapPage = () => {
             type: "symbol",
             source: "points",
             layout: {
-              "icon-image": "custom-marker",
+              "icon-image": [
+                "case",
+                ["==", ["get", "marker_colour"], "blue"],
+                "blue-marker",
+                ["==", ["get", "marker_colour"], "grey"],
+                "grey-marker",
+                ["==", ["get", "marker_colour"], "pink"],
+                "pink-marker",
+                ["==", ["get", "marker_colour"], "purple"],
+                "purple-marker",
+                ["==", ["get", "marker_colour"], "red"],
+                "red-marker",
+                ["==", ["get", "marker_colour"], "yellow"],
+                "yellow-marker",
+                ["==", ["get", "marker_colour"], "green"],
+                "green-marker",
+                "orange-marker",
+              ],
               // get the name from the source's "name" property
               "text-field": ["get", "name"],
               "text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
@@ -127,13 +170,14 @@ const MapPage = () => {
   });
 
   // add a new marker to markers array
-  const addMarker = async (name, longitude, latitude, type) => {
+  const addMarker = async (name, longitude, latitude, type, username) => {
     try {
       const newMarker = {
         name: name,
         longitude: longitude,
         latitude: latitude,
         type: type,
+        username: username,
       };
 
       const addedMarker = await POST_MARKER(groupId, newMarker, authToken);
@@ -176,8 +220,10 @@ const MapPage = () => {
           },
 
           properties: {
+            username: marker.username,
             name: marker.name,
             type: marker.type,
+            marker_colour: marker.marker_colour,
           },
         };
       });
