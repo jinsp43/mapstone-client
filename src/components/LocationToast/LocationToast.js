@@ -13,23 +13,35 @@ const LocationToast = ({
   layer,
 }) => {
   const [isMarker, setIsMarker] = useState(false);
-  const [markerId, setMarkerId] = useState();
+  const [markerId, setMarkerId] = useState(id);
+
+  // Initial load, get id and check if its already a marker
+  useEffect(() => {
+    console.log(`marker id updated to ${id}`);
+    setMarkerId(id);
+
+    // if it is a marker, add params to URL
+    if (layer === "points") {
+      setIsMarker(true);
+      return window.history.pushState({}, "", `?id=${id}`);
+    }
+
+    setIsMarker(false);
+  }, [id, layer]);
 
   const addClickHandler = async () => {
     const addedMarker = await addMarker(locName, lng, lat);
+    // use the id of the marker instead of the poi
     setMarkerId(addedMarker.data.id);
     setIsMarker(true);
+    window.history.pushState({}, "", `?id=${addedMarker.data.id}`);
   };
 
   const removeClickHandler = () => {
-    deleteMarker(markerId || id);
+    deleteMarker(markerId);
     setIsMarker(false);
-    setMarkerId();
+    window.history.pushState({}, "", window.location.pathname);
   };
-
-  useEffect(() => {
-    layer === "points" ? setIsMarker(true) : setIsMarker(false);
-  }, [layer]);
 
   return (
     <article className="loc-toast">

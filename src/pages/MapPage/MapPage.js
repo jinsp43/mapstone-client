@@ -24,7 +24,7 @@ const MapPage = () => {
   // default map position set at BStn
   const [lng, setLng] = useState(-0.081);
   const [lat, setLat] = useState(51.5263);
-  const [zoom, setZoom] = useState(16.2);
+  const [zoom, setZoom] = useState(15);
 
   const [markers, setMarkers] = useState([]);
   const [feature, setFeature] = useState();
@@ -37,8 +37,6 @@ const MapPage = () => {
   const getMarkers = useCallback(async () => {
     try {
       const { data } = await GET_MARKERS(groupId, authToken);
-
-      console.log(data);
 
       setMarkers(data);
     } catch (error) {
@@ -103,6 +101,7 @@ const MapPage = () => {
 
       // if user clicks somewhere that isn't a POI, close feature toast
       setFeature();
+      window.history.pushState({}, "", window.location.pathname);
 
       if (features.length) {
         const feature = features[0];
@@ -133,7 +132,6 @@ const MapPage = () => {
 
   // delete a marker
   const deleteMarker = async (markerId) => {
-    console.log(markerId);
     try {
       await DELETE_MARKER(markerId, authToken);
 
@@ -143,13 +141,15 @@ const MapPage = () => {
     }
   };
 
+  const [markersAdded, setMarkersAdded] = useState(false);
+
   // Dynamically update markers on map when markers are changed
   useEffect(() => {
     // on first load, source is not active yet
     if (!map.current.getSource("points")) return;
 
     // convert markers to required GeoJSON format
-    const markersToData = () => {
+    const addMarkers = () => {
       const ourFeatures = markers.map((marker) => {
         return {
           id: marker.id,
@@ -165,16 +165,33 @@ const MapPage = () => {
         };
       });
 
-      return {
+      const markersData = {
         type: "FeatureCollection",
         features: ourFeatures,
       };
+
+      map.current.getSource("points").setData(markersData);
+      setMarkersAdded(true);
     };
 
-    console.log("Markers Updated");
-    const markersData = markersToData();
-    map.current.getSource("points").setData(markersData);
+    addMarkers();
   }, [markers, isSourceActive]);
+
+  // Pre-loading a feature if params in link
+  useEffect(() => {
+    const searchParams = new URLSearchParams(window.location.search);
+    const id = Number(searchParams.get("id"));
+
+    if (id && map.current.getSource("points")) {
+      let features = map.current.getSource("points")._data.features;
+      let feature = features.find((feature) => feature.id === id);
+
+      if (feature) {
+        feature.layer = { id: "points" };
+        setFeature(feature);
+      }
+    }
+  }, [markersAdded]);
 
   return (
     <>
