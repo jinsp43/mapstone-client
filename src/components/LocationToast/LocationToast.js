@@ -91,12 +91,6 @@ const LocationToast = ({ feature, addMarker, deleteMarker, noFeature }) => {
             {feature.properties.username}'s Place
           </p>
         )}
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed quasi
-          natus minima obcaecati ea voluptatibus incidunt? Cumque nisi, illo
-          quos ipsam aspernatur reprehenderit provident. Excepturi ducimus id
-          itaque nemo asperiores?
-        </p>
       </article>
     </Draggable>
   );
