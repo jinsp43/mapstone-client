@@ -39,7 +39,6 @@ const MapPage = () => {
   const [isSourceActive, setIsSourceActive] = useState(false);
 
   // Get the markers from DB
-
   const getMarkers = useCallback(async () => {
     try {
       const { data } = await GET_MARKERS(groupId, authToken);
@@ -65,6 +64,11 @@ const MapPage = () => {
     "yellow",
     "green",
   ];
+
+  const noFeature = () => {
+    setFeature();
+    window.history.pushState({}, "", window.location.pathname);
+  };
 
   // Initial load of map
   useEffect(() => {
@@ -162,8 +166,7 @@ const MapPage = () => {
       });
 
       // if user clicks somewhere that isn't a POI, close feature toast
-      setFeature();
-      window.history.pushState({}, "", window.location.pathname);
+      noFeature();
 
       const currentZoom = map.current.getZoom();
       if (features.length) {
@@ -310,6 +313,8 @@ const MapPage = () => {
             feature={feature}
             addMarker={addMarker}
             deleteMarker={deleteMarker}
+            setFeature={setFeature}
+            noFeature={noFeature}
           />
         )}
       </main>
