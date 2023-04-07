@@ -10,14 +10,15 @@ const LocationToast = ({ feature, addMarker, deleteMarker, noFeature }) => {
 
   // Draggable Toast
   const toastRef = useRef(null);
-  const [toastPos, setToastPos] = useState({ x: 0, y: 350 });
+  const [toastPos, setToastPos] = useState({ x: 0, y: 325 });
 
   const handleDragStop = (e, position) => {
-    if (toastPos.y === 350 && position.y < 300) {
+    // small toast - either tap or drag opens toast
+    if (toastPos.y === 325 && (position.y === 325 || position.y < 275)) {
       setToastPos({ x: 0, y: 0 });
-    } else if (position.y > 50 && position.y <= 425) {
-      setToastPos({ x: 0, y: 350 });
-    } else if (position.y > 425) {
+    } else if (position.y > 50 && position.y <= 400) {
+      setToastPos({ x: 0, y: 325 });
+    } else if (position.y > 400) {
       noFeature();
     }
   };
@@ -64,6 +65,7 @@ const LocationToast = ({ feature, addMarker, deleteMarker, noFeature }) => {
       cancel=".loc-toast__icon"
     >
       <article ref={toastRef} className="loc-toast">
+        <div className="loc-toast__drag-marker"></div>
         <div className="loc-toast__heading-wrapper">
           <h3 className="loc-toast__heading">{feature.properties.name}</h3>
           {isMarker ? (
