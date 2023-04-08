@@ -1,7 +1,9 @@
 import "./MapPage.scss";
 import "mapbox-gl/dist/mapbox-gl.css";
+import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import React, { useRef, useEffect, useState, useCallback } from "react";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
+import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import MobileNav from "../../components/MobileNav/MobileNav";
 import LocationToast from "../../components/LocationToast/LocationToast";
 import {
@@ -18,6 +20,7 @@ const MapPage = () => {
 
   const mapContainer = useRef(null);
   const map = useRef(null);
+  const searchControl = useRef(null);
 
   const authToken = sessionStorage.getItem("authToken");
 
@@ -70,9 +73,12 @@ const MapPage = () => {
     window.history.pushState({}, "", window.location.pathname);
   };
 
+  const [searchAdded, setSearchAdded] = useState(false);
+
   // Initial load of map
   useEffect(() => {
     if (map.current) return; // initialize map only once
+
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: "mapbox://styles/mapbox/streets-v12",
@@ -165,10 +171,15 @@ const MapPage = () => {
         layers: ["poi-label", "transit-label", "points"],
       });
 
+      // console.log(features);
+
+      // console.log(map.current.project(e.lngLat));
+
       // if user clicks somewhere that isn't a POI, close feature toast
       noFeature();
 
       const currentZoom = map.current.getZoom();
+      // console.log(currentZoom);
       if (features.length) {
         const feature = features[0];
         setFeature(feature);
@@ -203,7 +214,52 @@ const MapPage = () => {
       }),
       "bottom-right"
     );
+
+    searchControl.current = new MapboxGeocoder({
+      accessToken: mapboxgl.accessToken,
+      mapboxgl: mapboxgl,
+      proximity: "ip",
+      types: "poi, postcode, address",
+      marker: false,
+      zoom: 19,
+    });
+
+    map.current.addControl(searchControl.current, "top-left");
+
+    setSearchAdded(true);
   });
+
+  // console.log(zoom);
+  const [showSearch, setShowSearch] = useState(false);
+
+  useEffect(() => {
+    if (!searchAdded) return;
+
+    if (showSearch) {
+      map.current.addControl(searchControl.current, "top-left");
+      searchControl.current.clear();
+      searchControl.current.on("result", (e) => {
+        map.current.on("idle", () => {
+          // console.log(e.result.center);
+          const pixelCoords = map.current.project(e.result.center);
+          console.log(pixelCoords);
+
+          const bbox = [
+            [pixelCoords.x - 50, pixelCoords.y - 50],
+            [pixelCoords.x + 50, pixelCoords.y + 50],
+          ];
+          console.log(bbox);
+          const searchFeatures = map.current.queryRenderedFeatures(bbox, {
+            layers: ["poi-label", "transit-label", "points"],
+          });
+
+          console.log(searchFeatures);
+        });
+      });
+    } else {
+      map.current.removeControl(searchControl.current);
+    }
+  }, [showSearch, searchAdded]);
 
   // add a new marker to markers array
   const addMarker = async (name, longitude, latitude, type, username) => {
@@ -270,6 +326,7 @@ const MapPage = () => {
       };
 
       map.current.getSource("points").setData(markersData);
+      map.current.setLayoutProperty("poi-label", "text-allow-overlap", true);
       setMarkersAdded(true);
     };
 
@@ -306,7 +363,7 @@ const MapPage = () => {
   return (
     <>
       <main className="map-page">
-        <div ref={mapContainer} className="map-container" />
+        <div ref={mapContainer} className="map-container"></div>
 
         {feature && (
           <LocationToast
@@ -318,7 +375,7 @@ const MapPage = () => {
           />
         )}
       </main>
-      <MobileNav />
+      <MobileNav showSearch={showSearch} setShowSearch={setShowSearch} />
     </>
   );
 };
