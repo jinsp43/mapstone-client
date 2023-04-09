@@ -176,26 +176,12 @@ const MapPage = () => {
         layers: ["poi-label", "transit-label", "points"],
       });
 
-      console.log(features);
-
       // if user clicks somewhere that isn't a POI, close feature toast
       noFeature();
-
-      const currentZoom = map.current.getZoom();
-      console.log(currentZoom);
 
       if (features.length) {
         const feature = features[0];
         setFeature(feature);
-
-        map.current.flyTo({
-          center: [
-            feature.geometry.coordinates[0],
-            feature.geometry.coordinates[1],
-          ],
-          zoom: currentZoom > 15 ? currentZoom : 15,
-          speed: 0.8,
-        });
       }
     });
 
@@ -225,7 +211,8 @@ const MapPage = () => {
       proximity: "ip",
       types: "poi, postcode, address",
       marker: false,
-      zoom: 18,
+      zoom: 18.7,
+      flyTo: { speed: 1.6 },
     });
 
     map.current.addControl(searchControl.current, "top-left");
@@ -234,6 +221,20 @@ const MapPage = () => {
   }, [lat, lng, zoom]);
 
   const [showSearch, setShowSearch] = useState(false);
+
+  useEffect(() => {
+    if (!feature) return;
+    const currentZoom = map.current.getZoom();
+
+    map.current.flyTo({
+      center: [
+        feature.geometry.coordinates[0],
+        feature.geometry.coordinates[1],
+      ],
+      zoom: currentZoom > 15 ? currentZoom : 15,
+      speed: 0.8,
+    });
+  }, [feature]);
 
   // Search functionality
   useEffect(() => {
@@ -244,14 +245,17 @@ const MapPage = () => {
       searchControl.current.clear();
 
       searchControl.current.on("result", (e) => {
+        setFeature();
         map.current.once("moveend", () => {
           // convert latLng coords to screen coords
           const pixelCoords = map.current.project(e.result.center);
 
+          console.log(pixelCoords);
+
           // reduce search area to reduce amount of features to loop through
           const bbox = [
-            [pixelCoords.x - 100, pixelCoords.y - 100],
-            [pixelCoords.x + 100, pixelCoords.y + 100],
+            [pixelCoords.x - 125, pixelCoords.y - 125],
+            [pixelCoords.x + 125, pixelCoords.y + 125],
           ];
 
           const searchFeatures = map.current.queryRenderedFeatures(bbox, {
@@ -259,8 +263,11 @@ const MapPage = () => {
           });
 
           // loop through the searchFeatures and find the wanted feature by name
+          const searchFeature = searchFeatures.find(
+            (feature) => feature.properties.name === e.result.text
+          );
 
-          console.log(searchFeatures);
+          setFeature(searchFeature);
         });
       });
     } else {
