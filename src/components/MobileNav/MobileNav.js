@@ -2,6 +2,7 @@ import "./MobileNav.scss";
 import people from "../../assets/icons/People.svg";
 import marker from "../../assets/icons/Marker.svg";
 import search from "../../assets/icons/Search.svg";
+import closeSearch from "../../assets/icons/CloseSearch.svg";
 import settings from "../../assets/icons/Settings.svg";
 import profile from "../../assets/icons/Profile.svg";
 import { Link } from "react-router-dom";
@@ -23,8 +24,21 @@ const MobileNav = ({ setShowSearch, showSearch }) => {
         className="mobile-nav__link"
         onClick={() => setShowSearch(!showSearch)}
       >
-        <img className="mobile-nav__icon" src={search} alt="Add" />
-        <p className="mobile-nav__text">Search</p>
+        {showSearch ? (
+          <>
+            <img
+              className="mobile-nav__icon"
+              src={closeSearch}
+              alt="Close search"
+            />
+            <p className="mobile-nav__text">Close Search</p>
+          </>
+        ) : (
+          <>
+            <img className="mobile-nav__icon" src={search} alt="Search" />
+            <p className="mobile-nav__text">Search</p>
+          </>
+        )}
       </div>
 
       <Link to="/settings" className="mobile-nav__link">
