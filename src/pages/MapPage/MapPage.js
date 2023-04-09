@@ -48,24 +48,16 @@ const MapPage = () => {
 
       setMarkers(data);
     } catch (error) {
+      if (error.response.status === 401) {
+        navigate("/login");
+      }
       console.log(error.message);
     }
-  }, [authToken, groupId]);
+  }, [authToken, groupId, navigate]);
 
   useEffect(() => {
     getMarkers();
   }, [authToken, groupId, getMarkers]);
-
-  // excluding orange, which is default/backup colour
-  const markerColours = [
-    "pink",
-    "blue",
-    "grey",
-    "purple",
-    "red",
-    "yellow",
-    "green",
-  ];
 
   const noFeature = () => {
     setFeature();
@@ -95,10 +87,23 @@ const MapPage = () => {
       );
     };
 
+    // excluding orange, which is default/backup colour
+    const markerColours = [
+      "pink",
+      "blue",
+      "grey",
+      "purple",
+      "red",
+      "yellow",
+      "green",
+    ];
+
     map.current.on("load", () => {
       markerColours.forEach((colour) => {
         loadAddImage(colour);
       });
+
+      map.current.setLayoutProperty("poi-label", "text-optional", true);
 
       // Marker image from our API
       map.current.loadImage(
@@ -153,7 +158,7 @@ const MapPage = () => {
               "text-offset": [1, 1.5],
               "text-variable-anchor": ["top", "left", "right"],
               "icon-allow-overlap": true,
-              "icon-ignore-placement": true,
+              // "icon-ignore-placement": true,
               "icon-padding": 0,
               "text-optional": true,
             },
@@ -166,19 +171,19 @@ const MapPage = () => {
     });
 
     map.current.on("click", (e) => {
+      console.log(e.point);
       const features = map.current.queryRenderedFeatures(e.point, {
         layers: ["poi-label", "transit-label", "points"],
       });
 
-      // console.log(features);
-
-      // console.log(map.current.project(e.lngLat));
+      console.log(features);
 
       // if user clicks somewhere that isn't a POI, close feature toast
       noFeature();
 
       const currentZoom = map.current.getZoom();
       console.log(currentZoom);
+
       if (features.length) {
         const feature = features[0];
         setFeature(feature);
@@ -226,17 +231,18 @@ const MapPage = () => {
     map.current.addControl(searchControl.current, "top-left");
 
     setSearchAdded(true);
-  });
+  }, [lat, lng, zoom]);
 
-  // console.log(zoom);
   const [showSearch, setShowSearch] = useState(false);
 
+  // Search functionality
   useEffect(() => {
     if (!searchAdded) return;
 
     if (showSearch) {
       map.current.addControl(searchControl.current, "top-left");
       searchControl.current.clear();
+
       searchControl.current.on("result", (e) => {
         map.current.once("moveend", () => {
           // convert latLng coords to screen coords
@@ -327,7 +333,7 @@ const MapPage = () => {
       };
 
       map.current.getSource("points").setData(markersData);
-      map.current.setLayoutProperty("poi-label", "text-allow-overlap", true);
+
       setMarkersAdded(true);
     };
 
