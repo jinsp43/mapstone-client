@@ -12,6 +12,7 @@ import {
   POST_MARKER,
 } from "../../utils/apiCalls.mjs";
 import { useNavigate, useParams } from "react-router-dom";
+import { pin } from "../../utils/pin.mjs";
 
 const MapPage = () => {
   mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
@@ -21,6 +22,7 @@ const MapPage = () => {
   const mapContainer = useRef(null);
   const map = useRef(null);
   const searchControl = useRef(null);
+  const featureMarker = useRef(null);
 
   const authToken = sessionStorage.getItem("authToken");
 
@@ -55,6 +57,10 @@ const MapPage = () => {
     }
   }, [authToken, groupId, navigate]);
 
+  // Define the custom marker element
+  const markerElement = document.createElement("div");
+  markerElement.innerHTML = pin;
+
   useEffect(() => {
     getMarkers();
   }, [authToken, groupId, getMarkers]);
@@ -76,6 +82,8 @@ const MapPage = () => {
       center: [lng, lat],
       zoom: zoom,
     });
+
+    featureMarker.current = new mapboxgl.Marker({ element: markerElement });
 
     const loadAddImage = (colour) => {
       map.current.loadImage(
@@ -111,6 +119,7 @@ const MapPage = () => {
         (error, image) => {
           if (error) throw error;
           map.current.addImage("orange-marker", image);
+
           // Add GeoJSON source for markers
           map.current.addSource("points", {
             type: "geojson",
@@ -171,13 +180,14 @@ const MapPage = () => {
     });
 
     map.current.on("click", (e) => {
-      console.log(e.point);
       const features = map.current.queryRenderedFeatures(e.point, {
         layers: ["poi-label", "transit-label", "points"],
       });
 
       // if user clicks somewhere that isn't a POI, close feature toast
       noFeature();
+
+      featureMarker.current.remove();
 
       if (features.length) {
         const feature = features[0];
@@ -222,8 +232,14 @@ const MapPage = () => {
 
   const [showSearch, setShowSearch] = useState(false);
 
+  // fly to and add marker when feature is selected
   useEffect(() => {
     if (!feature) return;
+
+    featureMarker.current
+      .setLngLat(feature.geometry.coordinates)
+      .addTo(map.current);
+
     const currentZoom = map.current.getZoom();
 
     map.current.flyTo({
