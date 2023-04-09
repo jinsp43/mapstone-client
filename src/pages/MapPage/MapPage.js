@@ -46,7 +46,6 @@ const MapPage = () => {
     try {
       const { data } = await GET_MARKERS(groupId, authToken);
 
-      console.log(data);
       setMarkers(data);
     } catch (error) {
       console.log(error.message);
@@ -179,7 +178,7 @@ const MapPage = () => {
       noFeature();
 
       const currentZoom = map.current.getZoom();
-      // console.log(currentZoom);
+      console.log(currentZoom);
       if (features.length) {
         const feature = features[0];
         setFeature(feature);
@@ -221,7 +220,7 @@ const MapPage = () => {
       proximity: "ip",
       types: "poi, postcode, address",
       marker: false,
-      zoom: 19,
+      zoom: 18,
     });
 
     map.current.addControl(searchControl.current, "top-left");
@@ -239,19 +238,21 @@ const MapPage = () => {
       map.current.addControl(searchControl.current, "top-left");
       searchControl.current.clear();
       searchControl.current.on("result", (e) => {
-        map.current.on("idle", () => {
-          // console.log(e.result.center);
+        map.current.once("moveend", () => {
+          // convert latLng coords to screen coords
           const pixelCoords = map.current.project(e.result.center);
-          console.log(pixelCoords);
 
+          // reduce search area to reduce amount of features to loop through
           const bbox = [
-            [pixelCoords.x - 50, pixelCoords.y - 50],
-            [pixelCoords.x + 50, pixelCoords.y + 50],
+            [pixelCoords.x - 100, pixelCoords.y - 100],
+            [pixelCoords.x + 100, pixelCoords.y + 100],
           ];
-          console.log(bbox);
+
           const searchFeatures = map.current.queryRenderedFeatures(bbox, {
             layers: ["poi-label", "transit-label", "points"],
           });
+
+          // loop through the searchFeatures and find the wanted feature by name
 
           console.log(searchFeatures);
         });
