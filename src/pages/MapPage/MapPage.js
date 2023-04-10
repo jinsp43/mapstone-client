@@ -385,20 +385,35 @@ const MapPage = () => {
   }, [markersAdded, getFeatureFromParams]);
 
   // === MODALS ===
+  const closeAll = () => {
+    setShowPlacesList(false);
+    setShowSettings(false);
+    setShowProfile(false);
+  };
+
   const [showPlacesList, setShowPlacesList] = useState(false);
 
-  const placesListToggle = () => setShowPlacesList(!showPlacesList);
+  const placesListToggle = () => {
+    closeAll();
+    setShowPlacesList(!showPlacesList);
+  };
   // const placesListOpenHandler = () => setShowPlacesList(true);
   const placesListCloseHandler = () => setShowPlacesList(false);
 
   const [showSettings, setShowSettings] = useState(false);
 
-  const settingsToggle = () => setShowSettings(!showSettings);
+  const settingsToggle = () => {
+    closeAll();
+    setShowSettings(!showSettings);
+  };
   const settingsCloseHandler = () => setShowSettings(false);
 
   const [showProfile, setShowProfile] = useState(false);
 
-  const profileToggle = () => setShowProfile(!showProfile);
+  const profileToggle = () => {
+    closeAll();
+    setShowProfile(!showProfile);
+  };
   const profileCloseHandler = () => setShowProfile(false);
 
   return (
