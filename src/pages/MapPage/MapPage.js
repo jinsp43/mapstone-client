@@ -260,6 +260,7 @@ const MapPage = () => {
   // Search functionality
   useEffect(() => {
     if (!searchAdded) return;
+    closeAll();
 
     if (showSearch) {
       map.current.addControl(searchControl.current, "top-left");
