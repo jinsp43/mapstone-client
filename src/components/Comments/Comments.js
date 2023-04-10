@@ -37,7 +37,6 @@ const Comments = ({ comments, addComment, editComment, currentUserId }) => {
       (comment) => comment.user_id === currentUserId
     );
 
-    console.log(userComment);
     setUserComment(userComment);
   }, [comments, currentUserId]);
 

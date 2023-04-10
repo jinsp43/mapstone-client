@@ -269,8 +269,6 @@ const MapPage = () => {
           // convert latLng coords to screen coords
           const pixelCoords = map.current.project(e.result.center);
 
-          console.log(pixelCoords);
-
           // reduce search area to reduce amount of features to loop through
           const bbox = [
             [pixelCoords.x - 125, pixelCoords.y - 125],
