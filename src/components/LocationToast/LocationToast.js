@@ -3,10 +3,16 @@ import addMarkerIcon from "../../assets/icons/AddMarker.svg";
 import removeMarkerIcon from "../../assets/icons/RemoveMarker.svg";
 import { useEffect, useRef, useState } from "react";
 import Draggable from "react-draggable";
+import { GET_COMMENTS, POST_COMMENT } from "../../utils/apiCalls.mjs";
+import CommentCard from "../CommentCard/CommentCard";
+import AddCommentModal from "../AddCommentModal/AddCommentModal";
 
 const LocationToast = ({ feature, addMarker, deleteMarker, noFeature }) => {
+  const authToken = sessionStorage.getItem("authToken");
+
   const [isMarker, setIsMarker] = useState(false);
   const [markerId, setMarkerId] = useState(feature.id);
+  const [comments, setComments] = useState([]);
 
   // Draggable Toast
   const toastRef = useRef(null);
@@ -23,6 +29,16 @@ const LocationToast = ({ feature, addMarker, deleteMarker, noFeature }) => {
     }
   };
 
+  const getComments = async () => {
+    try {
+      const { data } = await GET_COMMENTS(feature.id, authToken);
+      console.log(data);
+      setComments(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   // Initial load, get id and check if its already a marker
   useEffect(() => {
     setMarkerId(feature.id);
@@ -30,11 +46,13 @@ const LocationToast = ({ feature, addMarker, deleteMarker, noFeature }) => {
     // if it is a marker, add params to URL
     if (feature.layer.id === "points") {
       setIsMarker(true);
+
+      getComments();
       return window.history.pushState({}, "", `?id=${feature.id}`);
     }
 
     setIsMarker(false);
-  }, [feature]);
+  }, [feature, authToken]);
 
   const addClickHandler = async () => {
     const addedMarker = await addMarker(
@@ -54,6 +72,17 @@ const LocationToast = ({ feature, addMarker, deleteMarker, noFeature }) => {
     setIsMarker(false);
     window.history.pushState({}, "", window.location.pathname);
   };
+
+  const addComment = async (comment) => {
+    await POST_COMMENT(markerId, comment, authToken);
+
+    getComments();
+  };
+
+  const [showModal, setShowModal] = useState(false);
+
+  const modalOpenHandler = () => setShowModal(true);
+  const modalCloseHandler = () => setShowModal(false);
 
   return (
     <Draggable
@@ -91,6 +120,29 @@ const LocationToast = ({ feature, addMarker, deleteMarker, noFeature }) => {
             {feature.properties.username}'s Place
           </p>
         )}
+
+        <section className="loc-toast__comment-list">
+          <AddCommentModal
+            show={showModal}
+            modalCloseHandler={modalCloseHandler}
+            addComment={addComment}
+          />
+
+          <div className="loc-toast__comment-wrapper">
+            <h4 className="loc-toast__comment-heading">
+              Comments ({comments.length})
+            </h4>
+            <button
+              onClick={modalOpenHandler}
+              className="loc-toast__comment-add"
+            >
+              Add A Comment
+            </button>
+          </div>
+          {comments.map((comment) => (
+            <CommentCard key={comment.id} comment={comment} />
+          ))}
+        </section>
       </article>
     </Draggable>
   );

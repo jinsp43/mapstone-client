@@ -73,3 +73,18 @@ export const DELETE_MARKER = (markerId, authToken) =>
       authorisation: `Bearer ${authToken}`,
     },
   });
+
+//  COMMENTS
+export const GET_COMMENTS = (markerId, authToken) =>
+  axios.get(`${baseURL}/comments/${markerId}`, {
+    headers: {
+      authorisation: `Bearer ${authToken}`,
+    },
+  });
+
+export const POST_COMMENT = (markerId, comment, authToken) =>
+  axios.post(`${baseURL}/comments/${markerId}`, comment, {
+    headers: {
+      authorisation: `Bearer ${authToken}`,
+    },
+  });

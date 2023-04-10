@@ -97,13 +97,15 @@ const MapPage = () => {
 
     // excluding orange, which is default/backup colour
     const markerColours = [
-      "pink",
       "blue",
+      "green",
       "grey",
+      "light-blue",
+      "light-green",
+      "pink",
       "purple",
       "red",
       "yellow",
-      "green",
     ];
 
     map.current.on("load", () => {

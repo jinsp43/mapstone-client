@@ -32,4 +32,22 @@
     height: 3rem;
     cursor: pointer;
   }
+
+  &__comment {
+    &-list {
+      border-top: 1px solid $divider;
+    }
+
+    &-wrapper {
+      @include flex(flex-start, center, column);
+    }
+
+    &-add {
+      @include button;
+    }
+
+    &-heading {
+      text-transform: uppercase;
+    }
+  }
 }

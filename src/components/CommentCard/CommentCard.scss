@@ -1,0 +1,8 @@
+@use "../../styles/partials/mixins" as *;
+@use "../../styles/partials/variables" as *;
+
+.comment {
+  &__wrapper {
+    border-top: 1px solid white;
+  }
+}
