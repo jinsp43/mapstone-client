@@ -1,10 +1,18 @@
 import "./Settings.scss";
 import close from "../../assets/icons/Close.svg";
+import { useNavigate } from "react-router-dom";
 
 const Settings = ({ show, settingsCloseHandler }) => {
+  const navigate = useNavigate();
+
   if (!show) {
     return null;
   }
+
+  const handleLogout = () => {
+    sessionStorage.removeItem("authToken");
+    navigate("/login");
+  };
 
   return (
     <section className="settings">
@@ -18,6 +26,10 @@ const Settings = ({ show, settingsCloseHandler }) => {
           alt="Close"
         />
       </div>
+
+      <button onClick={handleLogout} className="settings__logout">
+        Log Out
+      </button>
     </section>
   );
 };
