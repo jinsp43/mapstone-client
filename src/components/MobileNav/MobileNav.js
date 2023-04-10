@@ -7,7 +7,7 @@ import settings from "../../assets/icons/Settings.svg";
 import profile from "../../assets/icons/Profile.svg";
 import { Link } from "react-router-dom";
 
-const MobileNav = ({ setShowSearch, showSearch }) => {
+const MobileNav = ({ setShowSearch, showSearch, placesListToggle }) => {
   return (
     <nav className="mobile-nav">
       <Link to="/groups" className="mobile-nav__link">
@@ -15,10 +15,10 @@ const MobileNav = ({ setShowSearch, showSearch }) => {
         <p className="mobile-nav__text">My Groups</p>
       </Link>
 
-      <Link to="/places" className="mobile-nav__link">
+      <div onClick={placesListToggle} className="mobile-nav__link">
         <img className="mobile-nav__icon" src={marker} alt="Marker" />
         <p className="mobile-nav__text">Places</p>
-      </Link>
+      </div>
 
       <div
         className="mobile-nav__link"

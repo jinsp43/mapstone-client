@@ -1,0 +1,32 @@
+@use "../../styles/partials/mixins" as *;
+@use "../../styles/partials/variables" as *;
+
+.place-card {
+  background-color: $neutral-light;
+  border-radius: 2rem;
+  padding: 1.6rem;
+  margin-bottom: 1.6rem;
+
+  &__wrapper {
+    @include flex(flex-start, flex-start, row);
+  }
+
+  &__icon {
+    width: 2rem;
+    margin-right: 1rem;
+  }
+
+  &__place {
+    margin: 0;
+  }
+
+  &__type {
+    margin: 0.4rem 0;
+    font-size: 1.3rem;
+  }
+
+  &__username {
+    margin: 0;
+    font-size: 1.3rem;
+  }
+}

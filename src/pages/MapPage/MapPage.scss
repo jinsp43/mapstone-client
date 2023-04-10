@@ -8,6 +8,7 @@
 .map-page {
   flex: auto;
   @include flex(flex-start, stretch, column);
+  position: relative;
 }
 
 .mapboxgl-popup {

@@ -13,6 +13,7 @@ import {
 } from "../../utils/apiCalls.mjs";
 import { useNavigate, useParams } from "react-router-dom";
 import { pin } from "../../utils/pin.mjs";
+import PlacesList from "../../components/PlacesList/PlacesList";
 
 const MapPage = () => {
   mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
@@ -39,8 +40,6 @@ const MapPage = () => {
 
   const [markers, setMarkers] = useState([]);
   const [feature, setFeature] = useState();
-
-  // state to check if
   const [isSourceActive, setIsSourceActive] = useState(false);
 
   // Get the markers from DB
@@ -83,6 +82,7 @@ const MapPage = () => {
       zoom: zoom,
     });
 
+    // marker used for when a feature is selected
     featureMarker.current = new mapboxgl.Marker({ element: markerElement });
 
     const loadAddImage = (colour) => {
@@ -292,7 +292,6 @@ const MapPage = () => {
     }
   }, [showSearch, searchAdded]);
 
-  // add a new marker to markers array
   const addMarker = async (name, longitude, latitude, type, username) => {
     try {
       const newMarker = {
@@ -313,7 +312,6 @@ const MapPage = () => {
     }
   };
 
-  // delete a marker
   const deleteMarker = async (markerId) => {
     try {
       await DELETE_MARKER(markerId, authToken);
@@ -391,9 +389,18 @@ const MapPage = () => {
     }
   }, [markersAdded]);
 
+  // === MODALS ===
+  const [showPlacesList, setShowPlacesList] = useState(false);
+
+  const placesListToggle = () => setShowPlacesList(!showPlacesList);
+  const placesListOpenHandler = () => setShowPlacesList(true);
+  const placesListCloseHandler = () => setShowPlacesList(false);
+
   return (
     <>
       <main className="map-page">
+        <PlacesList show={showPlacesList} markers={markers} />
+
         <div ref={mapContainer} className="map-container"></div>
 
         {feature && (
@@ -406,7 +413,11 @@ const MapPage = () => {
           />
         )}
       </main>
-      <MobileNav showSearch={showSearch} setShowSearch={setShowSearch} />
+      <MobileNav
+        showSearch={showSearch}
+        setShowSearch={setShowSearch}
+        placesListToggle={placesListToggle}
+      />
     </>
   );
 };
