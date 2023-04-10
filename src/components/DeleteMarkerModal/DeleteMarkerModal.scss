@@ -1,0 +1,31 @@
+@use "../../styles/partials/mixins" as *;
+@use "../../styles/partials/variables" as *;
+
+.delete-marker-modal {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 20;
+  @include flex(center, center);
+  background-color: #312f2f52;
+
+  &__content {
+    background-color: $neutral-light;
+    border-radius: 2.5rem;
+    padding: 2rem 3rem;
+    width: 25rem;
+  }
+
+  &__confirm {
+    @include button;
+    width: 100%;
+    margin-top: 2rem;
+    cursor: pointer;
+  }
+
+  &__cancel {
+    @extend .delete-marker-modal__confirm;
+  }
+}

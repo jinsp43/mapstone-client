@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CommentCard from "../CommentCard/CommentCard";
 import "./Comments.scss";
 
-const Comments = ({ comments, addComment }) => {
+const Comments = ({ comments, addComment, editComment, currentUserId }) => {
   const [errorMessage, setErrorMessage] = useState("");
 
   const [formFields, setFormFields] = useState({
@@ -30,33 +30,66 @@ const Comments = ({ comments, addComment }) => {
     }
   };
 
+  const [userComment, setUserComment] = useState();
+
+  useEffect(() => {
+    const userComment = comments.find(
+      (comment) => comment.user_id === currentUserId
+    );
+
+    console.log(userComment);
+    setUserComment(userComment);
+  }, [comments, currentUserId]);
+
+  if (!userComment) {
+    return (
+      <section className="comments">
+        <h4 className="comments__heading">Comments ({comments.length})</h4>
+
+        <form onSubmit={handleSubmit} className="comments__form">
+          <input
+            onChange={handleChange}
+            className="comments__input"
+            name="comment"
+            type="text"
+            placeholder="Type your comment..."
+          />
+
+          {errorMessage && <p className="comments__error">{errorMessage}</p>}
+
+          <div className="comments__buttons">
+            <button className="comments__cancel" type="button">
+              Cancel
+            </button>
+            <button className="comments__submit" type="submit">
+              Comment
+            </button>
+          </div>
+        </form>
+
+        {comments.map((comment) => (
+          <CommentCard key={comment.id} comment={comment} />
+        ))}
+      </section>
+    );
+  }
+
   return (
     <section className="comments">
       <h4 className="comments__heading">Comments ({comments.length})</h4>
 
-      <form onSubmit={handleSubmit} className="comments__form">
-        <input
-          onChange={handleChange}
-          className="comments__input"
-          name="comment"
-          type="text"
-          placeholder="Type your comment..."
-        />
+      <CommentCard
+        comment={userComment}
+        edit={true}
+        editComment={editComment}
+      />
 
-        {errorMessage && <p className="comments__error">{errorMessage}</p>}
-
-        <div className="comments__buttons">
-          <button className="comments__cancel" type="button">
-            Cancel
-          </button>
-          <button className="comments__submit" type="submit">
-            Comment
-          </button>
-        </div>
-      </form>
-      {comments.map((comment) => (
-        <CommentCard key={comment.id} comment={comment} />
-      ))}
+      {comments.map((comment) => {
+        if (comment.user_id === currentUserId) {
+          return null;
+        }
+        return <CommentCard key={comment.id} comment={comment} />;
+      })}
     </section>
   );
 };

@@ -88,3 +88,10 @@ export const POST_COMMENT = (markerId, comment, authToken) =>
       authorisation: `Bearer ${authToken}`,
     },
   });
+
+export const EDIT_COMMENT = (commentId, comment, authToken) =>
+  axios.put(`${baseURL}/comments/${commentId}`, comment, {
+    headers: {
+      authorisation: `Bearer ${authToken}`,
+    },
+  });
