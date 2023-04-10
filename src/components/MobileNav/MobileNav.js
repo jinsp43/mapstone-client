@@ -7,7 +7,13 @@ import settings from "../../assets/icons/Settings.svg";
 import profile from "../../assets/icons/Profile.svg";
 import { Link } from "react-router-dom";
 
-const MobileNav = ({ setShowSearch, showSearch, placesListToggle }) => {
+const MobileNav = ({
+  setShowSearch,
+  showSearch,
+  placesListToggle,
+  settingsToggle,
+  profileToggle,
+}) => {
   return (
     <nav className="mobile-nav">
       <Link to="/groups" className="mobile-nav__link">
@@ -41,15 +47,15 @@ const MobileNav = ({ setShowSearch, showSearch, placesListToggle }) => {
         )}
       </div>
 
-      <Link to="/settings" className="mobile-nav__link">
+      <div onClick={settingsToggle} className="mobile-nav__link">
         <img className="mobile-nav__icon" src={settings} alt="Settings" />
         <p className="mobile-nav__text">Settings</p>
-      </Link>
+      </div>
 
-      <Link to="/profile" className="mobile-nav__link">
+      <div onClick={profileToggle} className="mobile-nav__link">
         <img className="mobile-nav__icon" src={profile} alt="Profile" />
         <p className="mobile-nav__text">My Profile</p>
-      </Link>
+      </div>
     </nav>
   );
 };

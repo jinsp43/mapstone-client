@@ -1,0 +1,28 @@
+@use "../../styles/partials/mixins" as *;
+@use "../../styles/partials/variables" as *;
+
+.profile {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
+  background-color: $background;
+  padding: 0 1.6rem;
+  overflow: auto;
+
+  &__heading {
+    &-wrapper {
+      @include flex(center, center, row);
+      position: relative;
+    }
+  }
+
+  &__icon {
+    position: absolute;
+    right: 0;
+    width: 2rem;
+    cursor: pointer;
+  }
+}

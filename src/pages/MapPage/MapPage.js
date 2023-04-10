@@ -14,6 +14,8 @@ import {
 import { useNavigate, useParams } from "react-router-dom";
 import { pin } from "../../utils/pin.mjs";
 import PlacesList from "../../components/PlacesList/PlacesList";
+import Settings from "../../components/Settings/Settings";
+import Profile from "../../components/Profile/Profile";
 
 const MapPage = () => {
   mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
@@ -386,8 +388,18 @@ const MapPage = () => {
   const [showPlacesList, setShowPlacesList] = useState(false);
 
   const placesListToggle = () => setShowPlacesList(!showPlacesList);
-  const placesListOpenHandler = () => setShowPlacesList(true);
+  // const placesListOpenHandler = () => setShowPlacesList(true);
   const placesListCloseHandler = () => setShowPlacesList(false);
+
+  const [showSettings, setShowSettings] = useState(false);
+
+  const settingsToggle = () => setShowSettings(!showSettings);
+  const settingsCloseHandler = () => setShowSettings(false);
+
+  const [showProfile, setShowProfile] = useState(false);
+
+  const profileToggle = () => setShowProfile(!showProfile);
+  const profileCloseHandler = () => setShowProfile(false);
 
   return (
     <>
@@ -398,6 +410,11 @@ const MapPage = () => {
           placesListCloseHandler={placesListCloseHandler}
           getFeatureFromParams={getFeatureFromParams}
         />
+        <Settings
+          show={showSettings}
+          settingsCloseHandler={settingsCloseHandler}
+        />
+        <Profile show={showProfile} profileCloseHandler={profileCloseHandler} />
 
         <div ref={mapContainer} className="map-container"></div>
 
@@ -415,6 +432,8 @@ const MapPage = () => {
         showSearch={showSearch}
         setShowSearch={setShowSearch}
         placesListToggle={placesListToggle}
+        settingsToggle={settingsToggle}
+        profileToggle={profileToggle}
       />
     </>
   );
