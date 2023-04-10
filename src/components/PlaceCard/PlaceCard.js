@@ -1,8 +1,18 @@
 import "./PlaceCard.scss";
 
-const PlaceCard = ({ marker }) => {
+const PlaceCard = ({
+  marker,
+  getFeatureFromParams,
+  placesListCloseHandler,
+}) => {
+  const clickHandler = () => {
+    window.history.pushState({}, "", `?id=${marker.id}`);
+    placesListCloseHandler();
+    getFeatureFromParams();
+  };
+
   return (
-    <article className="place-card">
+    <article onClick={clickHandler} className="place-card">
       <div className="place-card__wrapper">
         <img
           src={`http://localhost:5050/images/marker-${marker.marker_colour}.png`}

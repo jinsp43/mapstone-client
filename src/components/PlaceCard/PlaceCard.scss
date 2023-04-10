@@ -6,6 +6,7 @@
   border-radius: 2rem;
   padding: 1.6rem;
   margin-bottom: 1.6rem;
+  cursor: pointer;
 
   &__wrapper {
     @include flex(flex-start, flex-start, row);

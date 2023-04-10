@@ -363,31 +363,24 @@ const MapPage = () => {
   }, [markers, isSourceActive]);
 
   // Pre-loading a feature if params in link
-  useEffect(() => {
+  const getFeatureFromParams = useCallback(() => {
     const searchParams = new URLSearchParams(window.location.search);
     const id = Number(searchParams.get("id"));
 
     if (id && map.current.getSource("points")) {
-      let features = map.current.getSource("points")._data.features;
-      let feature = features.find((feature) => feature.id === id);
+      const features = map.current.getSource("points")._data.features;
+      const feature = features.find((feature) => feature.id === id);
 
       if (feature) {
         feature.layer = { id: "points" };
         setFeature(feature);
-
-        const currentZoom = map.current.getZoom();
-
-        map.current.flyTo({
-          center: [
-            feature.geometry.coordinates[0],
-            feature.geometry.coordinates[1],
-          ],
-          zoom: currentZoom > 15 ? currentZoom : 15,
-          speed: 0.8,
-        });
       }
     }
-  }, [markersAdded]);
+  }, []);
+
+  useEffect(() => {
+    getFeatureFromParams();
+  }, [markersAdded, getFeatureFromParams]);
 
   // === MODALS ===
   const [showPlacesList, setShowPlacesList] = useState(false);
@@ -399,7 +392,12 @@ const MapPage = () => {
   return (
     <>
       <main className="map-page">
-        <PlacesList show={showPlacesList} markers={markers} />
+        <PlacesList
+          show={showPlacesList}
+          markers={markers}
+          placesListCloseHandler={placesListCloseHandler}
+          getFeatureFromParams={getFeatureFromParams}
+        />
 
         <div ref={mapContainer} className="map-container"></div>
 
