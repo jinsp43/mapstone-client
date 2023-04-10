@@ -1,0 +1,46 @@
+@use "../../styles/partials/mixins" as *;
+@use "../../styles/partials/variables" as *;
+
+.comments {
+  border-top: 1px solid $divider;
+  padding: 1.6rem;
+  overflow: auto;
+
+  &__heading {
+    margin: 0 0 1.6rem;
+  }
+
+  &__form {
+    @include flex(flex-start, flex-end, column);
+  }
+
+  &__input {
+    width: 100%;
+  }
+
+  &__error {
+    color: red;
+  }
+
+  &__buttons {
+    margin: 0.5rem 0 1.6rem;
+  }
+
+  &__cancel {
+    color: $neutral-light;
+    background-color: $neutral-dark;
+    border: none;
+    border-radius: 2rem;
+    padding: 0.8rem;
+
+    &:hover {
+      background-color: darkgrey;
+    }
+  }
+
+  &__submit {
+    background-color: $primary;
+    border-radius: 2rem;
+    padding: 0.8rem;
+  }
+}

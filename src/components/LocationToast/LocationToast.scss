@@ -9,8 +9,12 @@
   width: 100%;
   height: 75vh;
   z-index: 10;
-  padding: 1.6rem;
   border-radius: 1rem 1rem 0 0;
+  @include flex(flex-start, stretch, column);
+
+  &__handle {
+    padding: 1.6rem;
+  }
 
   &__drag-marker {
     width: 2.5rem;
@@ -33,21 +37,10 @@
     cursor: pointer;
   }
 
-  &__comment {
-    &-list {
-      border-top: 1px solid $divider;
-    }
+  &__type {
+  }
 
-    &-wrapper {
-      @include flex(flex-start, center, column);
-    }
-
-    &-add {
-      @include button;
-    }
-
-    &-heading {
-      text-transform: uppercase;
-    }
+  &__user {
+    margin: 0;
   }
 }

@@ -189,8 +189,6 @@ const MapPage = () => {
       // if user clicks somewhere that isn't a POI, close feature toast
       noFeature();
 
-      featureMarker.current.remove();
-
       if (features.length) {
         const feature = features[0];
         setFeature(feature);
@@ -230,13 +228,16 @@ const MapPage = () => {
     map.current.addControl(searchControl.current, "top-left");
 
     setSearchAdded(true);
-  }, [lat, lng, zoom]);
+  }, [lat, lng, zoom, markerElement]);
 
   const [showSearch, setShowSearch] = useState(false);
 
   // fly to and add marker when feature is selected
   useEffect(() => {
-    if (!feature) return;
+    if (!feature) {
+      featureMarker.current.remove();
+      return;
+    }
 
     featureMarker.current
       .setLngLat(feature.geometry.coordinates)
