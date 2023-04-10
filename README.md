@@ -1,5 +1,7 @@
 # Our Places Setup Instructions
 
+NOTE: Up to 11/04/2023, the website is only designed for mobile screens, so please view at a width of between 320-600px when testing
+
 1. Clone both the client and server repos
 2. Create a new MySQL database locally called "our_places_db"
 3. "npm run full" in server to run seed files and migrations
