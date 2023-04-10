@@ -15,7 +15,7 @@ const Profile = ({ show, profileCloseHandler }) => {
     const getUser = async () => {
       try {
         const { data } = await GET_PROFILE(authToken);
-        console.log(data);
+
         setUserData(data);
       } catch (error) {
         console.log(error);

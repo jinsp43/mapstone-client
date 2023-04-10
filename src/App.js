@@ -13,7 +13,7 @@ const App = () => {
     <BrowserRouter>
       <Header />
       <Routes>
-        <Route path="landing" element={<LandingPage />} />
+        <Route path="/" element={<LandingPage />} />
         <Route path="map/:groupId" element={<MapPage />} />
         <Route path="login" element={<LoginPage />} />
         <Route path="signup" element={<SignupPage />} />
