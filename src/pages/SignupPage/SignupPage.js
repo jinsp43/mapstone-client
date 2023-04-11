@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { SIGNUP } from "../../utils/apiCalls.mjs";
+import { LOGIN, SIGNUP } from "../../utils/apiCalls.mjs";
 import "./SignupPage.scss";
 
 const SignupPage = () => {
@@ -52,7 +52,12 @@ const SignupPage = () => {
         marker_colour: formFields.marker_colour,
       });
 
-      navigate("/login");
+      // Login automatically with new account
+      const { data } = await LOGIN(formFields);
+
+      sessionStorage.setItem("authToken", data.authToken);
+
+      navigate("/groups");
     } catch (error) {
       console.log(error.response);
       setErrorMessage(error.response.data.message);

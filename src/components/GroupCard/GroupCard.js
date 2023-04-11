@@ -12,7 +12,6 @@ const GroupCard = ({ name, groupId, authToken }) => {
       try {
         const { data } = await USERS_IN_GROUP(groupId, authToken);
 
-        console.log(data);
         setUsersInGroup(data);
       } catch (error) {
         console.log(error);
