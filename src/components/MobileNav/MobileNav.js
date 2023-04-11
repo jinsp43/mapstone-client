@@ -22,10 +22,10 @@ const MobileNav = ({
         <p className="mobile-nav__text">Members</p>
       </Link>
 
-      <div onClick={placesListToggle} className="mobile-nav__link">
+      <Link to={`/groups/${groupId}/places`} className="mobile-nav__link">
         <img className="mobile-nav__icon" src={marker} alt="Marker" />
         <p className="mobile-nav__text">Places</p>
-      </div>
+      </Link>
 
       <div
         className="mobile-nav__link"

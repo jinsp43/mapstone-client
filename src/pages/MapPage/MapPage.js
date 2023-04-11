@@ -371,24 +371,26 @@ const MapPage = () => {
   }, [markers, isSourceActive]);
 
   // Pre-loading a feature if params in link
-  const getFeatureFromParams = useCallback(() => {
-    const searchParams = new URLSearchParams(window.location.search);
-    const id = Number(searchParams.get("id"));
-
-    if (id && map.current.getSource("points")) {
-      const features = map.current.getSource("points")._data.features;
-      const feature = features.find((feature) => feature.id === id);
-
-      if (feature) {
-        feature.layer = { id: "points" };
-        setFeature(feature);
-      }
-    }
-  }, []);
+  const searchParams = new URLSearchParams(window.location.search);
+  const searchParamsId = Number(searchParams.get("id"));
 
   useEffect(() => {
+    const getFeatureFromParams = () => {
+      if (searchParamsId && map.current.getSource("points")) {
+        const features = map.current.getSource("points")._data.features;
+        const feature = features.find(
+          (feature) => feature.id === searchParamsId
+        );
+
+        if (feature) {
+          feature.layer = { id: "points" };
+          setFeature(feature);
+        }
+      }
+    };
+
     getFeatureFromParams();
-  }, [markersAdded, getFeatureFromParams]);
+  }, [markersAdded, searchParamsId]);
 
   // === MODALS ===
   const location = useLocation();
@@ -427,11 +429,16 @@ const MapPage = () => {
   };
   const profileCloseHandler = () => setShowProfile(false);
 
+  // open corresponding modal depending on params
   useEffect(() => {
     closeAll();
 
-    if (location.pathname.split("/")[3] === "members") {
+    const modalToOpen = location.pathname.split("/")[3];
+
+    if (modalToOpen === "members") {
       setShowMembers(true);
+    } else if (modalToOpen === "places") {
+      setShowPlacesList(true);
     }
   }, [location]);
 
@@ -441,12 +448,9 @@ const MapPage = () => {
         <MapHeader groupId={groupId} />
 
         <MembersList show={showMembers} />
-        <PlacesList
-          show={showPlacesList}
-          markers={markers}
-          placesListCloseHandler={placesListCloseHandler}
-          getFeatureFromParams={getFeatureFromParams}
-        />
+
+        <PlacesList groupId={groupId} show={showPlacesList} markers={markers} />
+
         <Settings
           show={showSettings}
           settingsCloseHandler={settingsCloseHandler}
