@@ -21,6 +21,7 @@ const LocationToast = ({ feature, addMarker, deleteMarker, noFeature }) => {
   const navigate = useNavigate();
 
   const [isMarker, setIsMarker] = useState(false);
+  const [isCreator, setIsCreator] = useState(false);
   const [markerId, setMarkerId] = useState(feature.id);
   const [comments, setComments] = useState([]);
 
@@ -62,17 +63,24 @@ const LocationToast = ({ feature, addMarker, deleteMarker, noFeature }) => {
   useEffect(() => {
     setMarkerId(feature.id);
 
+    setIsCreator(false);
+
     // if it is a marker, add params to URL
     if (feature.layer.id === "points") {
       setIsMarker(true);
 
-      //   getComments();
+      // check if marker.user_id === user.id from JWT token
+      // set state of isUsers marker to true
+      if (feature.properties.user_id === currentUserId) {
+        setIsCreator(true);
+      }
+
       return window.history.pushState({}, "", `?id=${feature.id}`);
     }
 
     setIsMarker(false);
     setComments([]);
-  }, [feature, authToken]);
+  }, [feature, authToken, currentUserId]);
 
   const addClickHandler = async () => {
     const addedMarker = await addMarker(
@@ -84,6 +92,7 @@ const LocationToast = ({ feature, addMarker, deleteMarker, noFeature }) => {
     // use the id of the marker instead of the poi
     setMarkerId(addedMarker.data.id);
     setIsMarker(true);
+    setIsCreator(true);
     window.history.pushState({}, "", `?id=${addedMarker.data.id}`);
   };
 
@@ -140,12 +149,14 @@ const LocationToast = ({ feature, addMarker, deleteMarker, noFeature }) => {
             <div className="loc-toast__heading-wrapper">
               <h3 className="loc-toast__heading">{feature.properties.name}</h3>
               {isMarker ? (
-                <img
-                  src={removeMarkerIcon}
-                  alt="remove marker"
-                  className="loc-toast__icon"
-                  onClick={removeClickHandler}
-                />
+                isCreator ? (
+                  <img
+                    src={removeMarkerIcon}
+                    alt="remove marker"
+                    className="loc-toast__icon"
+                    onClick={removeClickHandler}
+                  />
+                ) : null
               ) : (
                 <img
                   onClick={addClickHandler}

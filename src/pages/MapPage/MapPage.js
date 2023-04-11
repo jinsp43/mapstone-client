@@ -348,6 +348,7 @@ const MapPage = () => {
             name: marker.name,
             type: marker.type,
             marker_colour: marker.marker_colour,
+            user_id: marker.user_id,
           },
         };
       });
