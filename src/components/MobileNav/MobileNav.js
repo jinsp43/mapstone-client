@@ -8,6 +8,7 @@ import profile from "../../assets/icons/Profile.svg";
 import { Link } from "react-router-dom";
 
 const MobileNav = ({
+  groupId,
   setShowSearch,
   showSearch,
   placesListToggle,
@@ -16,9 +17,9 @@ const MobileNav = ({
 }) => {
   return (
     <nav className="mobile-nav">
-      <Link to="/groups" className="mobile-nav__link">
+      <Link to={`/groups/${groupId}/members`} className="mobile-nav__link">
         <img className="mobile-nav__icon" src={people} alt="Groups List" />
-        <p className="mobile-nav__text">My Groups</p>
+        <p className="mobile-nav__text">Members</p>
       </Link>
 
       <div onClick={placesListToggle} className="mobile-nav__link">

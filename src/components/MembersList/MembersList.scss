@@ -4,21 +4,38 @@
 .members {
   background-color: $background;
   padding: 1rem 1.6rem;
-  height: 100vh;
+  flex-grow: 1;
 
-  &__heading {
-    margin: 0;
+  &__wrapper {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10;
 
-    &-wrapper {
-      background-color: $neutral-light;
-      border-radius: 3rem;
-      padding: 1rem 3rem;
-    }
+    @include flex(flex-start, stretch, column);
   }
 
-  &__username {
+  &__heading {
+    background-color: $neutral-light;
+    border-radius: 3rem;
+    padding: 1rem 3rem;
+    color: $neutral-dark;
+    @include flex(space-between, center, row);
+  }
+
+  &__name {
+    margin: 0;
+  }
+
+  &__created-at {
     margin: 0;
     font-size: 1.2rem;
+  }
+
+  &__icon {
+    height: 2rem;
   }
 
   &__list {
@@ -35,22 +52,5 @@
     margin: auto auto 0;
     width: 85%;
     cursor: pointer;
-  }
-
-  &__map-btn {
-    @extend .members__create-btn;
-    margin-top: 1rem;
-  }
-
-  &__no-members {
-    margin: 0;
-    font-style: italic;
-    font-size: 1.8rem;
-    color: $primary;
-
-    &-wrapper {
-      text-align: center;
-      margin: auto;
-    }
   }
 }

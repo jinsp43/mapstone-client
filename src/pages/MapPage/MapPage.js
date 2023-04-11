@@ -8,7 +8,6 @@ import MobileNav from "../../components/MobileNav/MobileNav";
 import LocationToast from "../../components/LocationToast/LocationToast";
 import {
   DELETE_MARKER,
-  GET_GROUP_DETAILS,
   GET_MARKERS,
   POST_MARKER,
 } from "../../utils/apiCalls.mjs";
@@ -19,6 +18,7 @@ import Settings from "../../components/Settings/Settings";
 import Profile from "../../components/Profile/Profile";
 import GroupsList from "../../components/GroupsList/GroupsList";
 import MapHeader from "../../components/MapHeader/MapHeader";
+import MembersList from "../../components/MembersList/MembersList";
 
 const MapPage = () => {
   mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
@@ -394,17 +394,13 @@ const MapPage = () => {
   const location = useLocation();
 
   const closeAll = () => {
-    setShowGroups(false);
+    setShowMembers(false);
     setShowPlacesList(false);
     setShowSettings(false);
     setShowProfile(false);
   };
 
-  const [showGroups, setShowGroups] = useState(false);
-
-  const groupsOpenHandler = () => {
-    setShowGroups(true);
-  };
+  const [showMembers, setShowMembers] = useState(false);
 
   const [showPlacesList, setShowPlacesList] = useState(false);
 
@@ -432,18 +428,19 @@ const MapPage = () => {
   const profileCloseHandler = () => setShowProfile(false);
 
   useEffect(() => {
-    console.log(location.pathname.split("/")[3]);
+    closeAll();
 
-    if (location.pathname.split("/")[3] === "groups") {
-      groupsOpenHandler();
+    if (location.pathname.split("/")[3] === "members") {
+      setShowMembers(true);
     }
   }, [location]);
 
   return (
     <>
       <main className="map-page">
-        {/* <GroupsList show={showGroups} /> */}
         <MapHeader groupId={groupId} />
+
+        <MembersList show={showMembers} />
         <PlacesList
           show={showPlacesList}
           markers={markers}

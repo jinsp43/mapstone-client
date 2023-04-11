@@ -4,6 +4,7 @@ import "./GroupsList.scss";
 import GroupCard from "../GroupCard/GroupCard.js";
 import CreateGroupModal from "../CreateGroupModal/CreateGroupModal.js";
 import { useNavigate } from "react-router-dom";
+import Header from "../Header/Header.js";
 
 const GroupsList = () => {
   const [userData, setUserData] = useState({});
@@ -53,41 +54,45 @@ const GroupsList = () => {
   const modalCloseHandler = () => setShowModal(false);
 
   return (
-    <section className="groups">
-      <div className="groups__heading-wrapper">
-        <h3 className="groups__heading">Groups</h3>
-        <p className="groups__username">Your username: {userData.username}</p>
-      </div>
+    <>
+      <Header />
 
-      <div className="groups__list">
-        {groups.length ? (
-          groups.map((group) => (
-            <GroupCard
-              key={group.id}
-              name={group.group_name}
-              groupId={group.id}
-              authToken={authToken}
-            />
-          ))
-        ) : (
-          <div className="groups__no-groups-wrapper">
-            <h4 className="groups__no-groups">Join or Create A New Group</h4>
-            <h4 className="groups__no-groups">To Get Started!</h4>
-          </div>
-        )}
+      <section className="groups">
+        <div className="groups__heading-wrapper">
+          <h3 className="groups__heading">Groups</h3>
+          <p className="groups__username">Your username: {userData.username}</p>
+        </div>
 
-        <CreateGroupModal
-          getGroups={getGroups}
-          show={showModal}
-          authToken={authToken}
-          modalCloseHandler={modalCloseHandler}
-        />
+        <div className="groups__list">
+          {groups.length ? (
+            groups.map((group) => (
+              <GroupCard
+                key={group.id}
+                name={group.group_name}
+                groupId={group.id}
+                authToken={authToken}
+              />
+            ))
+          ) : (
+            <div className="groups__no-groups-wrapper">
+              <h4 className="groups__no-groups">Join or Create A New Group</h4>
+              <h4 className="groups__no-groups">To Get Started!</h4>
+            </div>
+          )}
 
-        <button onClick={modalOpenHandler} className="groups__create-btn">
-          Create A New Group
-        </button>
-      </div>
-    </section>
+          <CreateGroupModal
+            getGroups={getGroups}
+            show={showModal}
+            authToken={authToken}
+            modalCloseHandler={modalCloseHandler}
+          />
+
+          <button onClick={modalOpenHandler} className="groups__create-btn">
+            Create A New Group
+          </button>
+        </div>
+      </section>
+    </>
   );
 };
 

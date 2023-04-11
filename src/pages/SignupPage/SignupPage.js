@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import Header from "../../components/Header/Header.js";
 import { LOGIN, SIGNUP } from "../../utils/apiCalls.mjs";
 import "./SignupPage.scss";
 
@@ -65,80 +66,84 @@ const SignupPage = () => {
   };
 
   return (
-    <main className="signup-page">
-      <div className="signup-page__heading-wrapper">
-        <h1 className="signup-page__heading">Welcome to</h1>
-        <h1 className="signup-page__heading">Our Places</h1>
-      </div>
+    <>
+      <Header />
 
-      <form onSubmit={handleSubmit} className="signup-form">
-        <label htmlFor="username" className="signup-form__label">
-          Enter a username:
-        </label>
-        <input
-          onChange={handleChange}
-          type="text"
-          name="username"
-          className="signup-form__input"
-          placeholder="Enter a username..."
-        />
+      <main className="signup-page">
+        <div className="signup-page__heading-wrapper">
+          <h1 className="signup-page__heading">Welcome to</h1>
+          <h1 className="signup-page__heading">Our Places</h1>
+        </div>
 
-        <label htmlFor="password" className="signup-form__label">
-          Enter a password:
-        </label>
-        <input
-          onChange={handleChange}
-          type="password"
-          name="password"
-          className="signup-form__input"
-          placeholder="Enter a password..."
-        />
+        <form onSubmit={handleSubmit} className="signup-form">
+          <label htmlFor="username" className="signup-form__label">
+            Enter a username:
+          </label>
+          <input
+            onChange={handleChange}
+            type="text"
+            name="username"
+            className="signup-form__input"
+            placeholder="Enter a username..."
+          />
 
-        <label htmlFor="confirmPassword" className="signup-form__label">
-          Confirm your password:
-        </label>
-        <input
-          onChange={handleChange}
-          type="password"
-          name="confirmPassword"
-          className="signup-form__input"
-          placeholder="Confirm your password..."
-        />
-        {confirmError && <p className="signup-form__error">{confirmError}</p>}
+          <label htmlFor="password" className="signup-form__label">
+            Enter a password:
+          </label>
+          <input
+            onChange={handleChange}
+            type="password"
+            name="password"
+            className="signup-form__input"
+            placeholder="Enter a password..."
+          />
 
-        <label htmlFor="marker_colour" className="signup-form__label">
-          (Optional) Your Favourite Colour
-        </label>
-        <select
-          className="signup-form__input"
-          name="marker_colour"
-          onChange={handleChange}
-        >
-          <option value="">--Choose Your Favourite Colour--</option>
-          <option value="blue">Blue</option>
-          <option value="grey">Grey</option>
-          <option value="green">Green</option>
-          <option value="orange">Orange</option>
-          <option value="pink">Pink</option>
-          <option value="purple">Purple</option>
-          <option value="red">Red</option>
-          <option value="yellow">Yellow</option>
-        </select>
+          <label htmlFor="confirmPassword" className="signup-form__label">
+            Confirm your password:
+          </label>
+          <input
+            onChange={handleChange}
+            type="password"
+            name="confirmPassword"
+            className="signup-form__input"
+            placeholder="Confirm your password..."
+          />
+          {confirmError && <p className="signup-form__error">{confirmError}</p>}
 
-        {errorMessage && <p className="signup-form__error">{errorMessage}</p>}
+          <label htmlFor="marker_colour" className="signup-form__label">
+            (Optional) Your Favourite Colour
+          </label>
+          <select
+            className="signup-form__input"
+            name="marker_colour"
+            onChange={handleChange}
+          >
+            <option value="">--Choose Your Favourite Colour--</option>
+            <option value="blue">Blue</option>
+            <option value="grey">Grey</option>
+            <option value="green">Green</option>
+            <option value="orange">Orange</option>
+            <option value="pink">Pink</option>
+            <option value="purple">Purple</option>
+            <option value="red">Red</option>
+            <option value="yellow">Yellow</option>
+          </select>
 
-        <button className="signup-form__submit" type="submit">
-          Sign Up
-        </button>
-      </form>
+          {errorMessage && <p className="signup-form__error">{errorMessage}</p>}
 
-      <div className="signup-page__new-wrapper">
-        <p className="signup-page__text">Already have an account? </p>
-        <Link to="/login" className="signup-page__link">
-          Login
-        </Link>
-      </div>
-    </main>
+          <button className="signup-form__submit" type="submit">
+            Sign Up
+          </button>
+        </form>
+
+        <div className="signup-page__new-wrapper">
+          <p className="signup-page__text">Already have an account? </p>
+          <Link to="/login" className="signup-page__link">
+            Login
+          </Link>
+        </div>
+      </main>
+    </>
   );
 };
 

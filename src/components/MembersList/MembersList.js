@@ -6,10 +6,12 @@ import {
   USERS_IN_GROUP,
 } from "../../utils/apiCalls.mjs";
 import AddFriendModal from "../AddFriendModal/AddFriendModal.js";
+import Header from "../Header/Header.js";
 import MemberCard from "../MemberCard/MemberCard.js";
 import "./MembersList.scss";
+import close from "../../assets/icons/Close.svg";
 
-const MembersList = () => {
+const MembersList = ({ show }) => {
   const [userData, setUserData] = useState({});
   const [members, setMembers] = useState([]);
   const [groupDetails, setGroupDetails] = useState();
@@ -73,42 +75,53 @@ const MembersList = () => {
   const modalOpenHandler = () => setShowModal(true);
   const modalCloseHandler = () => setShowModal(false);
 
+  if (!show) {
+    return null;
+  }
+
   if (!groupDetails) {
     return <p>Loading...</p>;
   }
 
   return (
-    <section className="members">
-      <div className="members__heading-wrapper">
-        <h3 className="members__heading">{groupDetails.group_name}</h3>
-        <p className="members__username">Est. {groupDetails.created_at}</p>
-      </div>
+    <div className="members__wrapper">
+      <Header />
+      <section className="members">
+        <div className="members__heading">
+          <div className="members__heading-text">
+            <h3 className="members__name">{groupDetails.group_name}</h3>
+            <p className="members__created-at">
+              Est. {groupDetails.created_at}
+            </p>
+          </div>
 
-      <div className="members__list">
-        {members.map((member) => (
-          <MemberCard
-            key={member.id}
-            name={member.username}
-            colour={member.marker_colour}
-            id={member.id}
+          <Link className="members__icon" to={`/groups/${groupId}`}>
+            <img className="members__icon" src={close} alt="Close" />
+          </Link>
+        </div>
+
+        <div className="members__list">
+          {members.map((member) => (
+            <MemberCard
+              key={member.id}
+              name={member.username}
+              colour={member.marker_colour}
+              id={member.id}
+            />
+          ))}
+
+          <AddFriendModal
+            show={showModal}
+            modalCloseHandler={modalCloseHandler}
+            getMembers={getMembers}
           />
-        ))}
 
-        <AddFriendModal
-          show={showModal}
-          modalCloseHandler={modalCloseHandler}
-          getMembers={getMembers}
-        />
-
-        <button onClick={modalOpenHandler} className="members__create-btn">
-          + Add A Friend
-        </button>
-
-        <Link to={`/map/${groupId}`} className="members__map-btn">
-          Go To Map
-        </Link>
-      </div>
-    </section>
+          <button onClick={modalOpenHandler} className="members__create-btn">
+            + Add A Friend
+          </button>
+        </div>
+      </section>
+    </div>
   );
 };
 

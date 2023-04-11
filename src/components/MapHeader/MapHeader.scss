@@ -6,7 +6,7 @@
   color: $neutral-dark;
   padding: 0.4rem 1rem;
 
-  @include flex(flex-start, center, row);
+  @include flex(flex-start, stretch, row);
 
   &__icon {
     width: 2rem;

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import Header from "../../components/Header/Header.js";
 import { LOGIN } from "../../utils/apiCalls.mjs";
 import "./LoginPage.scss";
 
@@ -39,46 +40,50 @@ const LoginPage = () => {
   };
 
   return (
-    <main className="login-page">
-      <h1 className="login-page__heading">Welcome Back!</h1>
+    <>
+      <Header />
 
-      <form onSubmit={handleSubmit} className="login-form">
-        <label className="login-form__label" htmlFor="username">
-          Username
-        </label>
-        <input
-          onChange={handleChange}
-          className="login-form__input"
-          type="text"
-          name="username"
-          placeholder="Enter your username..."
-        />
+      <main className="login-page">
+        <h1 className="login-page__heading">Welcome Back!</h1>
 
-        <label className="login-form__label" htmlFor="password">
-          Password
-        </label>
-        <input
-          onChange={handleChange}
-          className="login-form__input"
-          type="password"
-          name="password"
-          placeholder="Enter your password..."
-        />
+        <form onSubmit={handleSubmit} className="login-form">
+          <label className="login-form__label" htmlFor="username">
+            Username
+          </label>
+          <input
+            onChange={handleChange}
+            className="login-form__input"
+            type="text"
+            name="username"
+            placeholder="Enter your username..."
+          />
 
-        {errorMessage && <p>{errorMessage}</p>}
+          <label className="login-form__label" htmlFor="password">
+            Password
+          </label>
+          <input
+            onChange={handleChange}
+            className="login-form__input"
+            type="password"
+            name="password"
+            placeholder="Enter your password..."
+          />
 
-        <button className="login-form__submit" type="submit">
-          Log In
-        </button>
-      </form>
+          {errorMessage && <p>{errorMessage}</p>}
 
-      <div className="login-page__new-wrapper">
-        <p className="login-page__text">New Here?</p>
-        <Link to="/signup" className="login-page__link">
-          Sign Up
-        </Link>
-      </div>
-    </main>
+          <button className="login-form__submit" type="submit">
+            Log In
+          </button>
+        </form>
+
+        <div className="login-page__new-wrapper">
+          <p className="login-page__text">New Here?</p>
+          <Link to="/signup" className="login-page__link">
+            Sign Up
+          </Link>
+        </div>
+      </main>
+    </>
   );
 };
 
