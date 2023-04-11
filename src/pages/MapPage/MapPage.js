@@ -8,14 +8,17 @@ import MobileNav from "../../components/MobileNav/MobileNav";
 import LocationToast from "../../components/LocationToast/LocationToast";
 import {
   DELETE_MARKER,
+  GET_GROUP_DETAILS,
   GET_MARKERS,
   POST_MARKER,
 } from "../../utils/apiCalls.mjs";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { pin } from "../../utils/pin.mjs";
 import PlacesList from "../../components/PlacesList/PlacesList";
 import Settings from "../../components/Settings/Settings";
 import Profile from "../../components/Profile/Profile";
+import GroupsList from "../../components/GroupsList/GroupsList";
+import MapHeader from "../../components/MapHeader/MapHeader";
 
 const MapPage = () => {
   mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
@@ -260,9 +263,10 @@ const MapPage = () => {
   // Search functionality
   useEffect(() => {
     if (!searchAdded) return;
-    closeAll();
 
     if (showSearch) {
+      closeAll();
+
       map.current.addControl(searchControl.current, "top-left");
       searchControl.current.clear();
 
@@ -387,10 +391,19 @@ const MapPage = () => {
   }, [markersAdded, getFeatureFromParams]);
 
   // === MODALS ===
+  const location = useLocation();
+
   const closeAll = () => {
+    setShowGroups(false);
     setShowPlacesList(false);
     setShowSettings(false);
     setShowProfile(false);
+  };
+
+  const [showGroups, setShowGroups] = useState(false);
+
+  const groupsOpenHandler = () => {
+    setShowGroups(true);
   };
 
   const [showPlacesList, setShowPlacesList] = useState(false);
@@ -418,9 +431,19 @@ const MapPage = () => {
   };
   const profileCloseHandler = () => setShowProfile(false);
 
+  useEffect(() => {
+    console.log(location.pathname.split("/")[3]);
+
+    if (location.pathname.split("/")[3] === "groups") {
+      groupsOpenHandler();
+    }
+  }, [location]);
+
   return (
     <>
       <main className="map-page">
+        {/* <GroupsList show={showGroups} /> */}
+        <MapHeader groupId={groupId} />
         <PlacesList
           show={showPlacesList}
           markers={markers}
@@ -446,6 +469,7 @@ const MapPage = () => {
         )}
       </main>
       <MobileNav
+        groupId={groupId}
         showSearch={showSearch}
         setShowSearch={setShowSearch}
         placesListToggle={placesListToggle}

@@ -1,0 +1,24 @@
+@use "../../styles/partials/mixins" as *;
+@use "../../styles/partials/variables" as *;
+
+.map-header {
+  background-color: $primary;
+  color: $neutral-dark;
+  padding: 0.4rem 1rem;
+
+  @include flex(flex-start, center, row);
+
+  &__icon {
+    width: 2rem;
+    margin-right: 1rem;
+    cursor: pointer;
+  }
+
+  &__group {
+    margin: 0;
+  }
+
+  &__numbers {
+    margin: 0;
+  }
+}

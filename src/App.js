@@ -14,11 +14,11 @@ const App = () => {
       <Header />
       <Routes>
         <Route path="/" element={<LandingPage />} />
-        <Route path="map/:groupId" element={<MapPage />} />
-        <Route path="login" element={<LoginPage />} />
         <Route path="signup" element={<SignupPage />} />
+        <Route path="login" element={<LoginPage />} />
         <Route path="groups" element={<GroupsList />} />
-        <Route path="groups/:groupId" element={<MembersList />} />
+        <Route path="groups/:groupId" element={<MapPage />} />
+        {/* <Route path="groups/:groupId" element={<MembersList />} /> */}
       </Routes>
     </BrowserRouter>
   );
