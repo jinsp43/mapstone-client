@@ -73,6 +73,10 @@
     background-color: $neutral-light;
     font-weight: bold;
     border-radius: 1rem;
+
+    &:focus {
+      outline: none;
+    }
   }
 
   &__logout {
