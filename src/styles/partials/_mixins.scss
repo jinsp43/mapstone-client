@@ -31,3 +31,26 @@
   border-radius: 2rem;
   font-weight: bold;
 }
+
+@mixin button2 {
+  background-color: $primary;
+  border: 2px solid $neutral-dark;
+  border-radius: 3rem;
+  box-shadow: $neutral-dark 4px 4px 0 0;
+  color: $neutral-dark;
+  cursor: pointer;
+  font-weight: 600;
+  padding: 1.2rem 1.8rem;
+  text-decoration: none;
+  text-align: center;
+  width: 35%;
+
+  &:hover {
+    background-color: $neutral-light;
+  }
+
+  &:active {
+    box-shadow: #422800 2px 2px 0 0;
+    transform: translate(2px, 2px);
+  }
+}
