@@ -6,7 +6,7 @@ import CreateGroupModal from "../CreateGroupModal/CreateGroupModal.js";
 import { useNavigate } from "react-router-dom";
 import Header from "../Header/Header.js";
 
-const GroupsList = () => {
+const GroupsList = ({ modal }) => {
   const [userData, setUserData] = useState({});
   const [groups, setGroups] = useState([]);
 
@@ -53,9 +53,13 @@ const GroupsList = () => {
   const modalOpenHandler = () => setShowModal(true);
   const modalCloseHandler = () => setShowModal(false);
 
+  if (modal) {
+    return null;
+  }
+
   return (
     <>
-      <Header />
+      <Header modal={true} icons={true} />
 
       <section className="groups">
         <div className="groups__heading-wrapper">

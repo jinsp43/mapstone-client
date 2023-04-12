@@ -22,7 +22,7 @@ const GroupCard = ({ name, groupId, authToken }) => {
   }, [authToken, groupId]);
 
   return (
-    <Link className="group-card__link" to={`/groups/${groupId}`}>
+    <Link className="group-card__link" to={`/groups/${groupId}/`}>
       <article className="group-card">
         <img className="group-card__icon" src={groupIcon} alt="group" />
         <div className="group-card__text">

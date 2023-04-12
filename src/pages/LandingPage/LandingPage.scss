@@ -10,6 +10,7 @@
     position: relative;
     max-height: 42.8rem;
     background-color: black;
+    pointer-events: none;
 
     @include tablet {
       max-height: 50rem;
@@ -36,9 +37,13 @@
       }
 
       &--desktop {
-        @include flex(center, center, column);
-        top: 0;
-        padding-bottom: 5rem;
+        display: none;
+
+        @include desktop {
+          @include flex(center, center, column);
+          top: 0;
+          padding-bottom: 5rem;
+        }
       }
     }
   }

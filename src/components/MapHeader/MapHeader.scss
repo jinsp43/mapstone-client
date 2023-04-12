@@ -8,6 +8,15 @@
 
   @include flex(flex-start, center, row);
 
+  @include tablet {
+    display: none;
+  }
+
+  &__link {
+    @include flex;
+    height: 100%;
+  }
+
   &__icon {
     width: 2rem;
     margin-right: 1rem;

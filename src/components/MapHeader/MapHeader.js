@@ -46,12 +46,9 @@ const MapHeader = ({ groupId }) => {
 
   return (
     <header className="map-header">
-      <img
-        onClick={() => navigate("/groups")}
-        className="map-header__icon"
-        src={back}
-        alt="Back arrow"
-      />
+      <Link className="map-header__link" to="/groups">
+        <img className="map-header__icon" src={back} alt="Back arrow" />
+      </Link>
 
       <Link to={`/groups/${groupId}/members`} className="map-header__wrapper">
         <h3 className="map-header__group">{groupDetails.group_name}</h3>

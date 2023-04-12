@@ -31,8 +31,16 @@
   width: 80%;
   margin: 0 auto;
 
+  @include desktop {
+    width: 30%;
+  }
+
   &__label {
     font-size: 1.4rem;
+
+    @include desktop {
+      font-size: 1.8rem;
+    }
   }
 
   &__input {
@@ -41,6 +49,10 @@
     border: none;
     border-bottom: 1px solid grey;
     padding: 0;
+
+    @include desktop {
+      font-size: 1.6rem;
+    }
 
     &:focus {
       outline: none;

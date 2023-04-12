@@ -6,8 +6,28 @@
   background-color: $primary;
   padding: 1rem 1.6rem;
 
+  &--map {
+    display: none;
+
+    @include tablet {
+      @include flex(space-between, center);
+    }
+  }
+
+  &--modal {
+    @include tablet {
+      display: none;
+    }
+  }
+
   &__icon {
     display: none;
+    cursor: pointer;
+
+    &:hover {
+      filter: brightness(0) saturate(100%) invert(30%) sepia(14%)
+        saturate(7139%) hue-rotate(345deg) brightness(98%) contrast(97%);
+    }
 
     @include tablet {
       display: block;

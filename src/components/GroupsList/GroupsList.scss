@@ -6,6 +6,15 @@
   padding: 1rem 1.6rem;
   height: 100vh;
 
+  @include tablet {
+    width: 40%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 10;
+  }
+
   &__heading {
     margin: 0;
 

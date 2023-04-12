@@ -17,6 +17,8 @@ import PlacesList from "../../components/PlacesList/PlacesList";
 import Profile from "../../components/Profile/Profile";
 import MapHeader from "../../components/MapHeader/MapHeader";
 import MembersList from "../../components/MembersList/MembersList";
+import Header from "../../components/Header/Header";
+import GroupsList from "../../components/GroupsList/GroupsList";
 
 const MapPage = () => {
   mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
@@ -398,10 +400,13 @@ const MapPage = () => {
   const location = useLocation();
 
   const closeAll = () => {
+    setHideGroups(true);
     setShowMembers(false);
     setShowPlacesList(false);
     setShowProfile(false);
   };
+
+  const [hideGroups, setHideGroups] = useState(true);
 
   const [showMembers, setShowMembers] = useState(false);
 
@@ -421,13 +426,18 @@ const MapPage = () => {
       setShowPlacesList(true);
     } else if (modalToOpen === "profile") {
       setShowProfile(true);
+    } else if (modalToOpen === "groups") {
+      setHideGroups(false);
     }
   }, [location]);
 
   return (
     <>
       <main className="map-page">
+        <Header groupId={groupId} icons={true} map={true} />
         <MapHeader groupId={groupId} />
+
+        <GroupsList modal={hideGroups} />
 
         <MembersList show={showMembers} />
 
