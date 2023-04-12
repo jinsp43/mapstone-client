@@ -14,9 +14,7 @@ import {
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { pin } from "../../utils/pin.mjs";
 import PlacesList from "../../components/PlacesList/PlacesList";
-import Settings from "../../components/Settings/Settings";
 import Profile from "../../components/Profile/Profile";
-import GroupsList from "../../components/GroupsList/GroupsList";
 import MapHeader from "../../components/MapHeader/MapHeader";
 import MembersList from "../../components/MembersList/MembersList";
 
@@ -90,16 +88,6 @@ const MapPage = () => {
     // marker used for when a feature is selected
     featureMarker.current = new mapboxgl.Marker({ element: markerElement });
 
-    const loadAddImage = (colour) => {
-      map.current.loadImage(
-        `http://localhost:5050/images/marker-${colour}.png`,
-        (error, image) => {
-          if (error) throw error;
-          map.current.addImage(`${colour}-marker`, image);
-        }
-      );
-    };
-
     // excluding orange, which is default/backup colour
     const markerColours = [
       "blue",
@@ -112,6 +100,16 @@ const MapPage = () => {
       "red",
       "yellow",
     ];
+
+    const loadAddImage = (colour) => {
+      map.current.loadImage(
+        `http://localhost:5050/images/marker-${colour}.png`,
+        (error, image) => {
+          if (error) throw error;
+          map.current.addImage(`${colour}-marker`, image);
+        }
+      );
+    };
 
     map.current.on("load", () => {
       markerColours.forEach((colour) => {
@@ -160,6 +158,10 @@ const MapPage = () => {
                 "yellow-marker",
                 ["==", ["get", "marker_colour"], "green"],
                 "green-marker",
+                ["==", ["get", "marker_colour"], "light-green"],
+                "light-green-marker",
+                ["==", ["get", "marker_colour"], "light-blue"],
+                "light-blue-marker",
                 "orange-marker",
               ],
               "icon-size": 0.125,
@@ -405,12 +407,7 @@ const MapPage = () => {
 
   const [showPlacesList, setShowPlacesList] = useState(false);
 
-  // const placesListOpenHandler = () => setShowPlacesList(true);
-  const placesListCloseHandler = () => setShowPlacesList(false);
-
   const [showProfile, setShowProfile] = useState(false);
-
-  const profileCloseHandler = () => setShowProfile(false);
 
   // open corresponding modal depending on params
   useEffect(() => {
@@ -436,11 +433,7 @@ const MapPage = () => {
 
         <PlacesList groupId={groupId} show={showPlacesList} markers={markers} />
 
-        <Profile
-          groupId={groupId}
-          show={showProfile}
-          profileCloseHandler={profileCloseHandler}
-        />
+        <Profile groupId={groupId} show={showProfile} />
 
         <div ref={mapContainer} className="map-container"></div>
 

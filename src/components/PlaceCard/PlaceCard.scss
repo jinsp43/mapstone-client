@@ -8,6 +8,11 @@
   margin-bottom: 1.6rem;
   cursor: pointer;
 
+  &:hover {
+    color: $secondary;
+    border: 1px solid $secondary;
+  }
+
   &__link {
     text-decoration: none;
     color: $neutral-dark;

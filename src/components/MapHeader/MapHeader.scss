@@ -4,8 +4,9 @@
 .map-header {
   background-color: $primary;
   padding: 0.4rem 1rem;
+  height: 6rem;
 
-  @include flex(flex-start, stretch, row);
+  @include flex(flex-start, center, row);
 
   &__icon {
     width: 2rem;

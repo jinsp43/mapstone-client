@@ -16,6 +16,13 @@ export const GET_PROFILE = (authToken) =>
     },
   });
 
+export const UPDATE_MARKER_COLOUR = (newColour, authToken) =>
+  axios.patch(`${baseURL}/users`, newColour, {
+    headers: {
+      authorisation: `Bearer ${authToken}`,
+    },
+  });
+
 //   GROUPS
 export const GET_GROUPS = (authToken) =>
   axios.get(`${baseURL}/groups`, {

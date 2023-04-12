@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Header from "../../components/Header/Header.js";
 import { LOGIN, SIGNUP } from "../../utils/apiCalls.mjs";
 import "./SignupPage.scss";
+import { markerColours } from "../../utils/markerColours.mjs";
 
 const SignupPage = () => {
   const [formFields, setFormFields] = useState({
@@ -119,14 +120,11 @@ const SignupPage = () => {
             onChange={handleChange}
           >
             <option value="">--Choose Your Favourite Colour--</option>
-            <option value="blue">Blue</option>
-            <option value="grey">Grey</option>
-            <option value="green">Green</option>
-            <option value="orange">Orange</option>
-            <option value="pink">Pink</option>
-            <option value="purple">Purple</option>
-            <option value="red">Red</option>
-            <option value="yellow">Yellow</option>
+            {markerColours.map((markerColour) => (
+              <option key={markerColour} value={markerColour}>
+                {markerColour}
+              </option>
+            ))}
           </select>
 
           {errorMessage && <p className="signup-form__error">{errorMessage}</p>}

@@ -5,7 +5,7 @@ import search from "../../assets/icons/Search.svg";
 import closeSearch from "../../assets/icons/CloseSearch.svg";
 import map from "../../assets/icons/Map.svg";
 import profile from "../../assets/icons/Profile.svg";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const MobileNav = ({ groupId, setShowSearch, showSearch }) => {
   return (
