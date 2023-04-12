@@ -42,8 +42,9 @@
   }
 
   &__link {
-    @include button2;
+    @include button;
     margin: 1rem;
+    width: 35%;
 
     &-wrapper {
       @include flex(center, center, row);

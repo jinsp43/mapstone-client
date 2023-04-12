@@ -85,7 +85,7 @@ const SignupPage = () => {
             type="text"
             name="username"
             className="signup-form__input"
-            placeholder="Enter a username..."
+            placeholder="Username..."
           />
 
           <label htmlFor="password" className="signup-form__label">
@@ -96,7 +96,7 @@ const SignupPage = () => {
             type="password"
             name="password"
             className="signup-form__input"
-            placeholder="Enter a password..."
+            placeholder="Password..."
           />
 
           <label htmlFor="confirmPassword" className="signup-form__label">
@@ -107,7 +107,7 @@ const SignupPage = () => {
             type="password"
             name="confirmPassword"
             className="signup-form__input"
-            placeholder="Confirm your password..."
+            placeholder="Confirm password..."
           />
           {confirmError && <p className="signup-form__error">{confirmError}</p>}
 
@@ -119,7 +119,7 @@ const SignupPage = () => {
             name="marker_colour"
             onChange={handleChange}
           >
-            <option value="">--Choose Your Favourite Colour--</option>
+            <option value="">--Please Select--</option>
             {markerColours.map((markerColour) => (
               <option key={markerColour} value={markerColour}>
                 {markerColour}

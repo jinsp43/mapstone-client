@@ -21,18 +21,18 @@
   flex-direction: $direction;
 }
 
-@mixin button {
-  @include flex(center, center, row);
-  width: 50%;
-  height: 4rem;
-  background-color: $primary;
-  color: $neutral-dark;
-  text-decoration: none;
-  border-radius: 2rem;
-  font-weight: bold;
-}
+// @mixin button {
+//   @include flex(center, center, row);
+//   width: 50%;
+//   height: 4rem;
+//   background-color: $primary;
+//   color: $neutral-dark;
+//   text-decoration: none;
+//   border-radius: 2rem;
+//   font-weight: bold;
+// }
 
-@mixin button2 {
+@mixin button {
   background-color: $primary;
   border: 2px solid $neutral-dark;
   border-radius: 3rem;
@@ -43,7 +43,6 @@
   padding: 1.2rem 1.8rem;
   text-decoration: none;
   text-align: center;
-  width: 35%;
 
   &:hover {
     background-color: $neutral-light;
