@@ -398,7 +398,6 @@ const MapPage = () => {
   const closeAll = () => {
     setShowMembers(false);
     setShowPlacesList(false);
-    setShowSettings(false);
     setShowProfile(false);
   };
 
@@ -406,27 +405,11 @@ const MapPage = () => {
 
   const [showPlacesList, setShowPlacesList] = useState(false);
 
-  const placesListToggle = () => {
-    closeAll();
-    setShowPlacesList(!showPlacesList);
-  };
   // const placesListOpenHandler = () => setShowPlacesList(true);
   const placesListCloseHandler = () => setShowPlacesList(false);
 
-  const [showSettings, setShowSettings] = useState(false);
-
-  const settingsToggle = () => {
-    closeAll();
-    setShowSettings(!showSettings);
-  };
-  const settingsCloseHandler = () => setShowSettings(false);
-
   const [showProfile, setShowProfile] = useState(false);
 
-  const profileToggle = () => {
-    closeAll();
-    setShowProfile(!showProfile);
-  };
   const profileCloseHandler = () => setShowProfile(false);
 
   // open corresponding modal depending on params
@@ -439,6 +422,8 @@ const MapPage = () => {
       setShowMembers(true);
     } else if (modalToOpen === "places") {
       setShowPlacesList(true);
+    } else if (modalToOpen === "profile") {
+      setShowProfile(true);
     }
   }, [location]);
 
@@ -451,11 +436,11 @@ const MapPage = () => {
 
         <PlacesList groupId={groupId} show={showPlacesList} markers={markers} />
 
-        <Settings
-          show={showSettings}
-          settingsCloseHandler={settingsCloseHandler}
+        <Profile
+          groupId={groupId}
+          show={showProfile}
+          profileCloseHandler={profileCloseHandler}
         />
-        <Profile show={showProfile} profileCloseHandler={profileCloseHandler} />
 
         <div ref={mapContainer} className="map-container"></div>
 
@@ -473,9 +458,6 @@ const MapPage = () => {
         groupId={groupId}
         showSearch={showSearch}
         setShowSearch={setShowSearch}
-        placesListToggle={placesListToggle}
-        settingsToggle={settingsToggle}
-        profileToggle={profileToggle}
       />
     </>
   );

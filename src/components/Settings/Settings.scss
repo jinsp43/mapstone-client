@@ -2,15 +2,22 @@
 @use "../../styles/partials/variables" as *;
 
 .settings {
-  position: absolute;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
   z-index: 10;
+  flex-grow: 1;
   background-color: $background;
   padding: 0 1.6rem;
   overflow: auto;
+
+  &__wrapper {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10;
+
+    @include flex(flex-start, stretch, column);
+  }
 
   &__heading {
     &-wrapper {

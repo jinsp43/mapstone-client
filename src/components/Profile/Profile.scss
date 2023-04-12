@@ -2,29 +2,65 @@
 @use "../../styles/partials/variables" as *;
 
 .profile {
-  position: absolute;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
   z-index: 10;
   background-color: $background;
-  padding: 0 1.6rem;
+  padding: 1rem 1.6rem;
   overflow: auto;
+  flex-grow: 1;
 
-  //   @include flex(flex-start, stretch, column);
+  &__wrapper {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10;
+
+    @include flex(flex-start, stretch, column);
+  }
 
   &__heading {
-    &-wrapper {
-      @include flex(center, center, row);
-      position: relative;
-    }
+    background-color: $neutral-light;
+    border-radius: 3rem;
+    padding: 1rem 3rem;
+    color: $neutral-dark;
+    @include flex(space-between, center, row);
+  }
+
+  &__name {
+    margin: 0;
+  }
+
+  &__created-at {
+    margin: 0;
+    font-size: 1.2rem;
   }
 
   &__icon {
-    position: absolute;
-    right: 0;
-    width: 2rem;
+    height: 2rem;
     cursor: pointer;
+  }
+
+  &__settings {
+    background-color: $neutral-light;
+    border-radius: 3rem;
+    min-height: 75%;
+    margin-top: 1rem;
+    padding: 1rem;
+    @include flex(space-between, stretch, column);
+  }
+
+  &__marker {
+    width: 2rem;
+    margin-right: 1rem;
+
+    &-colour {
+      @include flex(flex-start, center, row);
+    }
+  }
+
+  &__logout {
+    @include button;
+    margin: 0 auto;
   }
 }

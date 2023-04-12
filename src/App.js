@@ -18,6 +18,8 @@ const App = () => {
         <Route path="groups/:groupId" element={<MapPage />} />
         <Route path="groups/:groupId/members" element={<MapPage />} />
         <Route path="groups/:groupId/places" element={<MapPage />} />
+        <Route path="groups/:groupId/settings" element={<MapPage />} />
+        <Route path="groups/:groupId/profile" element={<MapPage />} />
       </Routes>
     </BrowserRouter>
   );

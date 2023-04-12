@@ -15,6 +15,12 @@
     width: 20%;
     text-decoration: none;
     cursor: pointer;
+    color: $neutral-dark;
+
+    &:hover {
+      filter: brightness(0) saturate(100%) invert(30%) sepia(14%)
+        saturate(7139%) hue-rotate(345deg) brightness(98%) contrast(97%);
+    }
   }
 
   &__icon {
@@ -26,6 +32,11 @@
     font-size: 1rem;
     font-variation-settings: "wght" 700;
     margin: 0.25rem 0 0;
-    color: $neutral-dark;
+    color: inherit;
   }
+}
+
+.active {
+  filter: brightness(0) saturate(100%) invert(30%) sepia(14%) saturate(7139%)
+    hue-rotate(345deg) brightness(98%) contrast(97%);
 }

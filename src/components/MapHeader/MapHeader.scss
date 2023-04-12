@@ -3,7 +3,6 @@
 
 .map-header {
   background-color: $primary;
-  color: $neutral-dark;
   padding: 0.4rem 1rem;
 
   @include flex(flex-start, stretch, row);
@@ -12,6 +11,20 @@
     width: 2rem;
     margin-right: 1rem;
     cursor: pointer;
+
+    &:hover {
+      filter: brightness(0) saturate(100%) invert(30%) sepia(14%)
+        saturate(7139%) hue-rotate(345deg) brightness(98%) contrast(97%);
+    }
+  }
+
+  &__wrapper {
+    text-decoration: none;
+    color: $neutral-dark;
+
+    &:hover {
+      color: $secondary;
+    }
   }
 
   &__group {

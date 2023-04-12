@@ -1,6 +1,7 @@
 import "./Settings.scss";
 import close from "../../assets/icons/Close.svg";
 import { useNavigate } from "react-router-dom";
+import Header from "../Header/Header";
 
 const Settings = ({ show, settingsCloseHandler }) => {
   const navigate = useNavigate();
@@ -15,22 +16,26 @@ const Settings = ({ show, settingsCloseHandler }) => {
   };
 
   return (
-    <section className="settings">
-      <div className="settings__heading-wrapper">
-        <h3 className="settings__heading">Settings</h3>
+    <div className="settings__wrapper">
+      <Header />
 
-        <img
-          onClick={settingsCloseHandler}
-          className="settings__icon"
-          src={close}
-          alt="Close"
-        />
-      </div>
+      <section className="settings">
+        <div className="settings__heading-wrapper">
+          <h3 className="settings__heading">Settings</h3>
 
-      <button onClick={handleLogout} className="settings__logout">
-        Log Out
-      </button>
-    </section>
+          <img
+            onClick={settingsCloseHandler}
+            className="settings__icon"
+            src={close}
+            alt="Close"
+          />
+        </div>
+
+        <button onClick={handleLogout} className="settings__logout">
+          Log Out
+        </button>
+      </section>
+    </div>
   );
 };
 

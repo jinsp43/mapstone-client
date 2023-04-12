@@ -3,29 +3,27 @@ import people from "../../assets/icons/People.svg";
 import marker from "../../assets/icons/Marker.svg";
 import search from "../../assets/icons/Search.svg";
 import closeSearch from "../../assets/icons/CloseSearch.svg";
-import settings from "../../assets/icons/Settings.svg";
+import map from "../../assets/icons/Map.svg";
 import profile from "../../assets/icons/Profile.svg";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
-const MobileNav = ({
-  groupId,
-  setShowSearch,
-  showSearch,
-  placesListToggle,
-  settingsToggle,
-  profileToggle,
-}) => {
+const MobileNav = ({ groupId, setShowSearch, showSearch }) => {
   return (
     <nav className="mobile-nav">
-      <Link to={`/groups/${groupId}/members`} className="mobile-nav__link">
+      <NavLink to={`/groups/${groupId}/members`} className="mobile-nav__link">
         <img className="mobile-nav__icon" src={people} alt="Groups List" />
         <p className="mobile-nav__text">Members</p>
-      </Link>
+      </NavLink>
 
-      <Link to={`/groups/${groupId}/places`} className="mobile-nav__link">
+      <NavLink to={`/groups/${groupId}/places`} className="mobile-nav__link">
         <img className="mobile-nav__icon" src={marker} alt="Marker" />
         <p className="mobile-nav__text">Places</p>
-      </Link>
+      </NavLink>
+
+      <NavLink to={`/groups/${groupId}/`} className="mobile-nav__link">
+        <img className="mobile-nav__icon" src={map} alt="Map" />
+        <p className="mobile-nav__text">Map</p>
+      </NavLink>
 
       <div
         className="mobile-nav__link"
@@ -48,15 +46,10 @@ const MobileNav = ({
         )}
       </div>
 
-      <div onClick={settingsToggle} className="mobile-nav__link">
-        <img className="mobile-nav__icon" src={settings} alt="Settings" />
-        <p className="mobile-nav__text">Settings</p>
-      </div>
-
-      <div onClick={profileToggle} className="mobile-nav__link">
+      <NavLink to={`/groups/${groupId}/profile`} className="mobile-nav__link">
         <img className="mobile-nav__icon" src={profile} alt="Profile" />
         <p className="mobile-nav__text">My Profile</p>
-      </div>
+      </NavLink>
     </nav>
   );
 };
