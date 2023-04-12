@@ -6,10 +6,6 @@
   background-color: $primary;
   padding: 1rem 1.6rem;
 
-  @include tablet {
-    @include flex(space-between, center);
-  }
-
   &__icon {
     display: none;
 

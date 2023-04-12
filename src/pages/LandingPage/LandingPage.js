@@ -18,9 +18,14 @@ const LandingPage = () => {
             className="landing__video"
             typeof="video/mp4"
           ></video>
+
           <div className="landing-hero__text">
             <h1 className="landing__heading">The World,</h1>
             <h1 className="landing__heading">Your Way</h1>
+          </div>
+
+          <div className="landing-hero__text landing-hero__text--desktop">
+            <h1 className="landing__heading">The World, Your Way</h1>
           </div>
         </div>
 

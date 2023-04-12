@@ -21,17 +21,6 @@
   flex-direction: $direction;
 }
 
-// @mixin button {
-//   @include flex(center, center, row);
-//   width: 50%;
-//   height: 4rem;
-//   background-color: $primary;
-//   color: $neutral-dark;
-//   text-decoration: none;
-//   border-radius: 2rem;
-//   font-weight: bold;
-// }
-
 @mixin button {
   background-color: $primary;
   border: 2px solid $neutral-dark;
