@@ -5,6 +5,7 @@
   background-color: $background;
   padding: 1rem 1.6rem;
   flex-grow: 1;
+  overflow: auto;
 
   &__wrapper {
     position: absolute;

@@ -95,7 +95,7 @@ const MembersList = ({ show }) => {
             </p>
           </div>
 
-          <Link className="members__icon" to={`/groups/${groupId}`}>
+          <Link className="members__icon" to={`/groups/${groupId}/`}>
             <img className="members__icon" src={close} alt="Close" />
           </Link>
         </div>
@@ -107,6 +107,7 @@ const MembersList = ({ show }) => {
               name={member.username}
               colour={member.marker_colour}
               id={member.id}
+              userData={userData}
             />
           ))}
 

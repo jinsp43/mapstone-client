@@ -1,6 +1,24 @@
 import "./MemberCard.scss";
+import { markerColours } from "../../utils/markerColours.mjs";
 
-const MemberCard = ({ name, colour, id }) => {
+const MemberCard = ({ name, colour, id, userData }) => {
+  const colourList = markerColours;
+
+  const colourIndex = colourList.indexOf(colour);
+
+  const hexCodes = [
+    "#F4A259",
+    "#004AAD",
+    "#38A844",
+    "#737373",
+    "#9FC0F5",
+    "#AAD8B6",
+    "#EBBDD9",
+    "#D585F1",
+    "#C43C1E",
+    "#FFFF00",
+  ];
+
   return (
     <article className="member-card">
       {/* Allows dynamic setting of colour of person icon */}
@@ -22,7 +40,7 @@ const MemberCard = ({ name, colour, id }) => {
         </defs>
         <g clipPath="url(#6c706f1a49)">
           <path
-            fill={colour}
+            fill={hexCodes[colourIndex]}
             d="M 212.808594 396.023438 L 97.433594 396.023438 C 96.386719 396.023438 95.539062 395.175781 95.539062 394.128906 L 95.539062 383.351562 C 95.539062 365.421875 110.128906 350.832031 128.0625 350.832031 L 182.179688 350.832031 C 200.109375 350.832031 214.699219 365.421875 214.699219 383.351562 L 214.699219 394.128906 C 214.699219 395.175781 213.851562 396.023438 212.808594 396.023438 Z M 155.121094 345.746094 C 136.105469 345.746094 120.636719 330.277344 120.636719 311.265625 C 120.636719 292.25 136.105469 276.78125 155.121094 276.78125 C 174.132812 276.78125 189.605469 292.25 189.605469 311.265625 C 189.605469 330.277344 174.132812 345.746094 155.121094 345.746094 Z M 155.121094 345.746094 "
             fillOpacity="1"
             fillRule="nonzero"
@@ -31,7 +49,15 @@ const MemberCard = ({ name, colour, id }) => {
       </svg>
 
       <div className="member-card__text">
-        <p className="member-card__name">{name}</p>
+        <p
+          className={
+            userData.id === id
+              ? "member-card__name member-card__name--highlight"
+              : "member-card__name"
+          }
+        >
+          {name}
+        </p>
       </div>
     </article>
   );

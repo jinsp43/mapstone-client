@@ -13,7 +13,7 @@ const PlacesList = ({ show, markers, groupId }) => {
       <div className="places-list__heading-wrapper">
         <h3 className="places-list__heading">Places</h3>
 
-        <Link className="places-list__icon" to={`/groups/${groupId}`}>
+        <Link className="places-list__icon" to={`/groups/${groupId}/`}>
           <img src={close} alt="Close" />
         </Link>
       </div>

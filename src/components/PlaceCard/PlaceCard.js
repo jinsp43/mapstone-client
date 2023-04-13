@@ -5,7 +5,7 @@ const PlaceCard = ({ marker, groupId }) => {
   return (
     <Link
       className="place-card__link"
-      to={`/groups/${groupId}?id=${marker.id}`}
+      to={`/groups/${groupId}/?id=${marker.id}`}
     >
       <article className="place-card">
         <div className="place-card__wrapper">

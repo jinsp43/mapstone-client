@@ -200,7 +200,22 @@ const MapPage = () => {
 
       if (features.length) {
         const feature = features[0];
+
         setFeature(feature);
+      } else {
+        // const extraFeature = {
+        //   layer: {
+        //     id: "land",
+        //   },
+        //   properties: {
+        //     name: "Custom",
+        //     type: "Custom",
+        //   },
+        //   geometry: {
+        //     coordinates: [e.lngLat.lng, e.lngLat.lat],
+        //   },
+        // };
+        // setFeature(extraFeature);
       }
     });
 

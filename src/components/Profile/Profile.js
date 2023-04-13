@@ -67,7 +67,7 @@ const Profile = ({ show, groupId }) => {
             </p>
           </div>
 
-          <Link className="profile__icon" to={`/groups/${groupId}`}>
+          <Link className="profile__icon" to={`/groups/${groupId}/`}>
             <img className="profile__icon" src={close} alt="Close" />
           </Link>
         </div>

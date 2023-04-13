@@ -37,6 +37,7 @@
     margin-top: 1rem;
     padding: 1rem;
     @include flex(space-between, stretch, column);
+    overflow: auto;
   }
 
   &__create-btn {
