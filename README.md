@@ -22,7 +22,7 @@ Not sure where to eat/go? Rather than only going off the opinion of reviews from
 
 NOTE: Most of the web app is only designed for mobile screens, so please view at a width of between 320-600px when testing.
 
-1. Clone both the client and server repos
+1. Clone both the client and server repos and npm i in both to install all required packages
 2. Create a new MySQL database locally called "our_places_db" or whatever you prefer
 3. "npm run full" in server to run seed files and migrations
 4. Fill out .env files following the .env.example in both client and server. For the mapbox token on the client, you have to get this from https://account.mapbox.com/access-tokens/ (the default public token will be fine)
